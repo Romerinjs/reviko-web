@@ -13,7 +13,7 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-:where(#product, #how-it-works, #businesses, #benefits, .anchor-alias) {
+:where(#contenido, #legal-doc, #product, #how-it-works, #businesses, #benefits, .anchor-alias) {
   scroll-margin-top: calc(var(--header-h) + 1rem);
 }
 
@@ -133,16 +133,11 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 1ms;
   }
-  *,
-  *::before,
-  *::after {
+  :not(.mobile-drawer, .drawer-overlay, .drawer-overlay *, .menu-btn, .menu-btn *) {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

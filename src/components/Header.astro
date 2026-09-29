@@ -43,7 +43,8 @@ const t = ui[locale];
     </div>
   </div>
 
-  <dialog class="mobile-drawer" id="mobile-drawer" aria-label={t.navLabel}>
+  <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="mobile-drawer" aria-label={t.navLabel} inert>
     <div class="drawer-head">
       <a href={locale === "es" ? "/" : "/en/"} class="drawer-brand" aria-label={t.brandHome}>
         <img src="/reviko-la-vuelta.svg" alt="" width="30" height="30" />
@@ -61,7 +62,7 @@ const t = ui[locale];
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </nav>
-  </dialog>
+  </aside>
 </header>
 
 <style>
@@ -126,6 +127,23 @@ const t = ui[locale];
   .login { font-weight: 700; font-size: 0.92rem; color: var(--reviko-green); white-space: nowrap; }
   .btn-sm { padding: 0.7rem 1.1rem; font-size: 0.9rem; white-space: nowrap; }
 
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgb(11 42 29 / 0.45);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s;
+    z-index: 90;
+  }
+  .drawer-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
   .mobile-drawer {
     position: fixed;
     inset: 0 auto 0 0;
@@ -141,17 +159,16 @@ const t = ui[locale];
     padding: calc(1.25rem + env(safe-area-inset-top)) 1.35rem calc(1.5rem + env(safe-area-inset-bottom));
     background: var(--reviko-cream);
     color: var(--reviko-green);
-    transform: translateX(-102%);
-    transition: transform 0.28s var(--ease-out);
+    transform: translate3d(-105%, 0, 0);
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 0 50px rgb(11 42 29 / 0.22);
+    z-index: 100;
+    pointer-events: none;
   }
-  .mobile-drawer[open] { display: block; }
-  .mobile-drawer.is-open { transform: translateX(0); }
-  .mobile-drawer::backdrop {
-    background: rgb(11 42 29 / 0.36);
-    opacity: 0;
-    transition: opacity 0.24s ease;
+  .mobile-drawer.is-open {
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
   }
-  .mobile-drawer.is-open::backdrop { opacity: 1; }
   .drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
   .drawer-brand { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.05em; }
   .drawer-brand img { width: 30px; height: 30px; }
@@ -165,6 +182,11 @@ const t = ui[locale];
     border-radius: 50%;
     background: transparent;
     color: var(--reviko-green);
+    transition: transform 0.2s var(--ease-out), background 0.2s;
+  }
+  .drawer-close:hover {
+    background: rgb(11 42 29 / 0.05);
+    transform: scale(1.05);
   }
   .drawer-close span { position: absolute; width: 19px; height: 1.8px; border-radius: 2px; background: currentColor; transform: rotate(45deg); }
   .drawer-close span:last-child { transform: rotate(-45deg); }
@@ -176,6 +198,11 @@ const t = ui[locale];
     border-bottom: 1px solid rgb(11 42 29 / 0.1);
     font-size: 1.05rem;
     font-weight: 700;
+    transition: padding-left 0.2s var(--ease-out), color 0.2s;
+  }
+  .drawer-nav > a:not(.drawer-cta):hover {
+    padding-left: 6px;
+    color: var(--reviko-green-2);
   }
   .drawer-nav .drawer-login { margin-top: 1.5rem; border: 0 !important; min-height: 44px; color: var(--reviko-sage); }
   .drawer-nav .drawer-cta { justify-self: start; margin-top: 0.75rem; min-height: 48px; }
@@ -192,8 +219,5 @@ const t = ui[locale];
     .menu-btn { display: none; }
     .actions { gap: 0.9rem; }
     .desktop-action { display: inline-flex; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .menu-btn span, .mobile-drawer, .mobile-drawer::backdrop { transition-duration: 1ms; }
   }
 </style>

@@ -8,22 +8,24 @@ export function initProblemAnimation(): void {
 
   const timeline = gsap.timeline({
     defaults: { ease: "power3.out" },
-    scrollTrigger: { trigger: group, start: "top 82%", once: true },
+    scrollTrigger: { trigger: group, start: "top 85%", once: true },
   });
   timeline.fromTo(
     people,
-    { opacity: 0, y: 24 },
-    { opacity: 1, y: 0, duration: 0.48, stagger: 0.12 },
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.38, stagger: 0.08 },
   );
   const rootStyles = getComputedStyle(document.documentElement);
   const lime = rootStyles.getPropertyValue("--reviko-lime").trim();
-  const green = rootStyles.getPropertyValue("--reviko-green").trim();
   const highlight = people[0];
   if (highlight)
-    timeline.to(highlight, {
-      y: -6,
-      backgroundColor: lime,
-      color: green,
-      duration: 0.36,
-    });
+    timeline.to(
+      highlight,
+      {
+        y: -4,
+        color: lime,
+        duration: 0.32,
+      },
+      "-=0.1",
+    );
 }

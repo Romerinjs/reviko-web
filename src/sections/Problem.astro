@@ -21,11 +21,36 @@ const t = ui[locale].problem;
         ))}
       </h2>
       <div class="people" data-people aria-hidden="true">
-        <span class="person"></span>
-        <span class="person"></span>
-        <span class="person"></span>
-        <span class="person"></span>
-        <span class="person"></span>
+        <div class="person">
+          <svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="person-head" cx="24" cy="13" r="11" fill="currentColor"/>
+            <path class="person-body" d="M2 62C2 46.5 12 30 24 30C36 30 46 46.5 46 62H2Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="person">
+          <svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="person-head" cx="24" cy="13" r="11" fill="currentColor"/>
+            <path class="person-body" d="M2 62C2 46.5 12 30 24 30C36 30 46 46.5 46 62H2Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="person">
+          <svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="person-head" cx="24" cy="13" r="11" fill="currentColor"/>
+            <path class="person-body" d="M2 62C2 46.5 12 30 24 30C36 30 46 46.5 46 62H2Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="person">
+          <svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="person-head" cx="24" cy="13" r="11" fill="currentColor"/>
+            <path class="person-body" d="M2 62C2 46.5 12 30 24 30C36 30 46 46.5 46 62H2Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="person">
+          <svg viewBox="0 0 48 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="person-head" cx="24" cy="13" r="11" fill="currentColor"/>
+            <path class="person-body" d="M2 62C2 46.5 12 30 24 30C36 30 46 46.5 46 62H2Z" fill="currentColor"/>
+          </svg>
+        </div>
       </div>
       <div class="problem-foot">
         <p>{t.foot}</p>
@@ -43,19 +68,25 @@ const t = ui[locale].problem;
     padding: var(--section-space) 0;
   }
   .display-sm { margin-top: 1rem; max-width: 12ch; }
-  .people { display: flex; gap: clamp(0.45rem, 2vw, 0.9rem); margin: 2.4rem 0; }
+  .people {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(0.5rem, 2vw, 0.9rem);
+    margin: 2.4rem 0;
+  }
   .person {
-    width: 52px; max-width: 52px; min-width: 0; height: 72px; flex: 1 1 0; border-radius: 26px 26px 14px 14px;
-    background: rgb(252 249 243 / 0.22);
-    position: relative;
-    transition: background 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+    width: clamp(40px, 4.5vw, 54px);
+    height: auto;
+    color: rgb(252 249 243 / 0.28);
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.35s var(--ease-out), color 0.35s var(--ease-out);
   }
-  .person::before {
-    content: ""; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-    width: 22px; height: 22px; border-radius: 50%; background: currentColor; opacity: 0.9;
+  .person svg {
+    display: block;
+    width: 100%;
+    height: auto;
   }
-  .person { color: rgb(252 249 243 / 0.35); }
-  .person.is-hot { background: var(--reviko-lime); color: var(--reviko-green); transform: translateY(-6px); }
   .problem-foot { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
   .problem-foot p { font-size: 1.15rem; max-width: 22rem; }
   .problem-grid { display: grid; gap: 2rem; }
@@ -71,7 +102,7 @@ const t = ui[locale].problem;
   @media (max-width: 639px) {
     .display-sm { max-width: 14ch; }
     .people { margin: 1.8rem 0; }
-    .person { height: 62px; }
+    .person { width: clamp(38px, 12vw, 46px); }
     .problem-foot { gap: 1rem; }
     .problem-foot p { font-size: 1rem; }
   }
