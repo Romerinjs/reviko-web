@@ -1,0 +1,98 @@
+---
+export interface Props {
+  total?: number;
+  filled?: number;
+  icon?: "coffee" | "cut" | "car" | "flower" | "fork" | "gift";
+  gift?: boolean;
+  animate?: boolean;
+  label?: string;
+}
+
+const { total = 6, filled = 4, icon = "coffee", gift = true, animate = true, label } = Astro.props;
+
+const paths: Record<string, string> = {
+  coffee: "M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z M7 2v2 M11 2v2 M15 2v2",
+  cut: "M6 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM20 4 8.5 15.5M14.5 14.5 20 20M8.5 8.5 12 12",
+  car: "M5 11 6.5 6.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11m-14 0h14a2 2 0 0 1 2 2v4h-2m-14 0H3v-4a2 2 0 0 1 2-2Zm2 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z",
+  flower:
+    "M12 21v-8m0 0c0-4 3-7 8-7 0 4-3 7-8 7Zm0 0c0-4-3-7-8-7 0 4 3 7 8 7Zm0 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
+  fork: "M7 2v20M4 2v6a3 3 0 0 0 3 3 3 3 0 0 0 3-3V2M7 11v11M17 2c-2 0-3 2.5-3 6 0 2.5 1 4 3 4v10M17 2v10",
+  gift: "M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7s-1.5-5-4.5-5S4 7 12 7ZM12 7s1.5-5 4.5-5S20 7 12 7Z",
+};
+
+const dots = Array.from({ length: total }, (_, i) => i);
+const rewardCount = dots.length + Number(gift);
+const rewardMaxWidth = `${rewardCount * 44 + (rewardCount - 1) * 8}px`;
+---
+
+<div class="reward-frame" style={`--reward-max-width:${rewardMaxWidth}`}>
+  <div
+    class:list={["rewards", animate && "rewards-anim"]}
+    style={`--reward-count:${rewardCount}`}
+    role="img"
+    aria-label={label ?? `${filled} de ${total} sellos acumulados`}
+  >
+    {
+      dots.map((i) => (
+        <span class:list={["stamp", i < filled && "is-filled"]} data-stamp={i < filled ? "on" : "off"}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d={paths[icon]} />
+          </svg>
+        </span>
+      ))
+    }
+    {
+      gift && (
+        <span class:list={["stamp", "stamp-gift", filled >= total && "is-filled"]}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d={paths.gift} />
+          </svg>
+        </span>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .reward-frame {
+    display: block;
+    width: min(var(--reward-max-width), 100%);
+    max-width: 100%;
+  }
+  .rewards {
+    display: grid;
+    grid-template-columns: repeat(var(--reward-count), minmax(0, 1fr));
+    gap: clamp(3px, 1.4vw, 8px);
+    width: 100%;
+    align-items: center;
+  }
+  .stamp {
+    width: 44px;
+    max-width: 100%;
+    min-width: 0;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px dashed rgb(11 42 29 / 0.28);
+    color: var(--reviko-green);
+    transition: background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .on-dark .stamp {
+    border-color: rgb(252 249 243 / 0.35);
+    color: var(--reviko-cream);
+  }
+  .stamp svg {
+    width: 48%;
+    height: 48%;
+  }
+  .stamp.is-filled {
+    background: var(--reviko-lime);
+    border: 1.5px solid var(--reviko-lime);
+    color: var(--reviko-green);
+  }
+  .stamp-gift {
+    border-style: solid;
+  }
+</style>

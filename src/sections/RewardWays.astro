@@ -1,0 +1,167 @@
+---
+import Eyebrow from "../components/Eyebrow.astro";
+import type { Locale } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale?: Locale;
+}
+const { locale = "es" } = Astro.props;
+const t = ui[locale].ways;
+const bars = ["68%", "45%", "82%"] as [string, string, string];
+---
+
+<section class="ways" id="benefits" aria-labelledby="ways-title">
+  <span class="anchor-alias" id="beneficios" aria-hidden="true"></span>
+  <div class="container">
+    <div class="ways-head">
+      <Eyebrow center>{t.eyebrow}</Eyebrow>
+      <h2 id="ways-title" class="display-sm" data-lines>
+        {t.title.map((line) => (
+          <span class="line"><span>{line}</span></span>
+        ))}
+      </h2>
+    </div>
+    <div class="cards" data-stagger>
+      <article class="way">
+        <span class="way-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#0B2A1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8.5 22 9.3 17 14l1.2 7L12 17.7 5.8 21 7 14 2 9.3 9 8.5Z"/></svg>
+        </span>
+        <h3>{t.cards[0].title}</h3>
+        <p>{t.cards[0].text}</p>
+        <p class="metric">{t.cards[0].metric}</p>
+          <span class="bar"><i data-progress style={`width: ${bars[0]}`}></i></span>
+      </article>
+      <article class="way featured">
+        <span class="way-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#0B2A1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7s-1.5-5-4.5-5S4 7 12 7ZM12 7s1.5-5 4.5-5S20 7 12 7Z"/></svg>
+        </span>
+        <h3>{t.cards[1].title}</h3>
+        <p>{t.cards[1].text}</p>
+        <p class="metric">{t.cards[1].metric}</p>
+          <span class="bar"><i data-progress style={`width: ${bars[1]}`}></i></span>
+      </article>
+      <article class="way">
+        <span class="way-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#0B2A1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg>
+        </span>
+        <h3>{t.cards[2].title}</h3>
+        <p>{t.cards[2].text}</p>
+        <p class="metric">{t.cards[2].metric}</p>
+          <span class="bar"><i data-progress style={`width: ${bars[2]}`}></i></span>
+      </article>
+    </div>
+    <figure class="band" data-media>
+      <img
+        src="/images/img-8.jpg"
+        alt={t.bandAlt}
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>{t.bandCaption}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="community" aria-labelledby="community-title">
+  <div class="container community-inner" data-reveal>
+    <span class="logo-badge" aria-hidden="true">
+      <img src="/reviko-la-vuelta.svg" alt="" width="44" height="44" loading="lazy" decoding="async" />
+    </span>
+    <div>
+      <h2 id="community-title">{t.communityTitle}</h2>
+      <p>{t.communitySub}</p>
+    </div>
+    <img
+      class="community-photo"
+      src="/images/img-7.jpg"
+      alt={t.communityImgAlt}
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+</section>
+
+<style>
+  .ways { padding: var(--section-space) 0; background: var(--reviko-cream); }
+  .ways-head { text-align: center; display: grid; gap: 1rem; justify-items: center; }
+  .cards { margin-top: 3rem; display: grid; gap: 1rem; }
+  .way {
+    background: var(--reviko-card);
+    border: 1px solid rgb(11 42 29 / 0.12);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    box-shadow: var(--shadow-soft);
+    transform: none;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+  }
+  .way.featured { background: #fff; }
+  .way:hover { transform: translateY(-3px) rotate(0deg); }
+  .way-icon {
+    width: 56px; height: 56px; display: grid; place-items: center;
+    background: var(--reviko-lime-soft); border-radius: 50%; margin-bottom: 1rem;
+  }
+  .way h3 { font-size: 1.5rem; }
+  .way p { color: var(--reviko-sage); }
+  .metric { font-size: 1.6rem !important; font-weight: 800; color: var(--reviko-green) !important; letter-spacing: -0.03em; margin-top: 0.6rem; }
+  .bar { display: block; height: 8px; border-radius: 99px; background: rgb(11 42 29 / 0.1); margin-top: 0.8rem; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--reviko-lime-deep); border-radius: 99px; }
+  .band { margin: 3rem 0 0; position: relative; }
+  .band img {
+    width: 100%; aspect-ratio: 16 / 8; object-fit: cover;
+    border-radius: 12px; border: 1px solid rgb(11 42 29 / 0.12);
+  }
+  .band figcaption {
+    position: absolute; left: 1.2rem; bottom: 1.2rem;
+    background: rgb(11 42 29 / 0.85); color: var(--reviko-cream);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 0.55rem 1rem; border-radius: 999px;
+    max-width: calc(100% - 2.4rem);
+  }
+  .community { padding: 0 0 var(--section-space); background: var(--reviko-cream); }
+  .community-inner {
+    display: flex; gap: 1.4rem; align-items: center;
+    background: var(--reviko-cream-2);
+    border: 1px solid rgb(11 42 29 / 0.12);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    flex-wrap: wrap;
+  }
+  .community-photo {
+    width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
+    border: 3px solid var(--reviko-lime); flex: none;
+    margin-left: auto;
+  }
+  .logo-badge {
+    flex: none; width: 88px; height: 88px; display: grid; place-items: center;
+    background: var(--reviko-cream); border-radius: 50%;
+    border: 1px solid rgb(11 42 29 / 0.12);
+  }
+  .logo-badge img { display: block; }
+  .community-inner h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--reviko-green); }
+  .community-inner p { color: var(--reviko-sage); font-weight: 600; }
+  @media (min-width: 980px) {
+    .cards { grid-template-columns: repeat(3, 1fr); }
+    .community-inner { padding: 2.4rem; }
+    .way { transform: rotate(-1deg); }
+    .way.featured { transform: rotate(1deg); }
+    .way:nth-child(3) { transform: rotate(-0.5deg); }
+  }
+  @media (max-width: 639px) {
+    .ways { padding-block: var(--section-space); }
+    .cards { margin-top: 2rem; gap: 0.8rem; }
+    .way { padding: 1.35rem; }
+    .way-icon { width: 48px; height: 48px; }
+    .way h3 { font-size: 1.35rem; }
+    .metric { font-size: 1.4rem !important; }
+    .band { margin-top: 2rem; }
+    .band img { min-height: 190px; aspect-ratio: 4 / 3; }
+    .band figcaption { left: 0.65rem; bottom: 0.65rem; max-width: calc(100% - 1.3rem); padding: 0.45rem 0.65rem; font-size: 0.62rem; letter-spacing: 0.12em; }
+    .community-inner { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 0.9rem; padding: 1.1rem; }
+    .logo-badge { width: 56px; height: 56px; }
+    .logo-badge img { width: 34px; height: 34px; }
+    .community-inner h2 { font-size: clamp(1.35rem, 6vw, 1.8rem); }
+    .community-inner p { font-size: 0.9rem; }
+    .community-photo { grid-column: 1 / -1; width: 100%; height: auto; aspect-ratio: 16 / 10; border-radius: 12px; margin: 0; }
+  }
+</style>

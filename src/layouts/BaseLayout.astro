@@ -1,0 +1,63 @@
+---
+import "../styles/tokens.css";
+import "../styles/base.css";
+import "../styles/utilities.css";
+import type { Locale } from "../i18n/config";
+import { SITE_URL, localizedPath } from "../i18n/config";
+import { ui } from "../i18n/ui";
+import { ClientRouter } from "astro:transitions";
+
+export interface Props {
+  locale?: Locale;
+  /** ruta base en español de la página actual */
+  basePath?: string;
+  title?: string;
+  description?: string;
+}
+
+const { locale = "es", basePath = "/" } = Astro.props;
+const t = ui[locale];
+const title = Astro.props.title ?? t.meta.title;
+const description = Astro.props.description ?? t.meta.description;
+const canonical = new URL(localizedPath(basePath, locale), SITE_URL).toString();
+const selfHref = canonical;
+---
+
+<!doctype html>
+<html lang={locale} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FCF9F3" />
+    <ClientRouter />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={new URL(localizedPath(basePath, "es"), SITE_URL).toString()} />
+    <link rel="alternate" hreflang="en" href={new URL(localizedPath(basePath, "en"), SITE_URL).toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localizedPath(basePath, "es"), SITE_URL).toString()} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={selfHref} />
+    <meta property="og:locale" content={t.meta.ogLocale} />
+    <meta property="og:locale:alternate" content={locale === "es" ? "en_US" : "es_ES"} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      document.documentElement.classList.remove("no-js");
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{t.legalChrome.skip}</a>
+    <slot />
+    <script>
+       import "../scripts/initAnimations";
+    </script>
+  </body>
+</html>

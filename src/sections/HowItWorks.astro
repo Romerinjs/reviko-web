@@ -1,0 +1,215 @@
+---
+import Eyebrow from "../components/Eyebrow.astro";
+import type { Locale } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale?: Locale;
+}
+const { locale = "es" } = Astro.props;
+const t = ui[locale].how;
+---
+
+<section class="how" id="how-it-works" aria-labelledby="how-title">
+  <span class="anchor-alias" id="como-funciona" aria-hidden="true"></span>
+  <div class="container">
+    <div class="how-head">
+      <Eyebrow center>{t.eyebrow}</Eyebrow>
+      <h2 id="how-title" class="display-sm" data-lines>
+        {t.title.map((line) => (
+          <span class="line"><span>{line}</span></span>
+        ))}
+      </h2>
+    </div>
+
+    <div class="flow" data-how-flow>
+      <!-- 01 · ESCANEAN -->
+      <div class="step" data-hstep="1">
+        <p class="num" data-hhead>{t.steps[0].n}</p>
+        <h3 data-hhead>{t.steps[0].title}</h3>
+        <div class="art">
+          <svg data-part="qr" viewBox="0 0 170 196" role="img" aria-hidden="true" focusable="false">
+            <ellipse cx="85" cy="187" rx="47" ry="7" fill="#0B2A1D" opacity="0.12"/>
+            <polygon points="124,64 140,64 128,184 112,184" fill="#E9E2D5" stroke="#0B2A1D" stroke-opacity="0.14" stroke-width="1.5" stroke-linejoin="round"/>
+            <rect x="40" y="8" width="90" height="164" rx="10" fill="#FFFDF8" stroke="#0B2A1D" stroke-opacity="0.16" stroke-width="1.5"/>
+            <rect x="44" y="12" width="82" height="156" rx="7" fill="none" stroke="#0B2A1D" stroke-opacity="0.07" stroke-width="1"/>
+            <circle cx="120" cy="24" r="4" fill="#C7F979"/>
+            <text x="80" y="40" text-anchor="middle" font-size="12.5" font-weight="800" letter-spacing="-0.5" fill="#0B2A1D">reviko</text>
+            <g fill="#0B2A1D">
+              <rect x="53" y="60" width="21" height="21"/>
+              <rect x="96" y="60" width="21" height="21"/>
+              <rect x="53" y="103" width="21" height="21"/>
+              <rect x="81" y="68" width="6" height="6"/>
+              <rect x="89" y="68" width="6" height="6"/>
+              <rect x="81" y="90" width="6" height="6"/>
+              <rect x="103" y="90" width="6" height="6"/>
+              <rect x="53" y="90" width="6" height="6"/>
+              <rect x="67" y="90" width="6" height="6"/>
+              <rect x="81" y="103" width="6" height="6"/>
+              <rect x="89" y="111" width="6" height="6"/>
+              <rect x="97" y="111" width="6" height="6"/>
+              <rect x="105" y="103" width="6" height="6"/>
+              <rect x="111" y="119" width="6" height="6"/>
+              <rect x="81" y="119" width="6" height="6"/>
+              <rect x="67" y="130" width="6" height="6"/>
+              <rect x="89" y="130" width="6" height="6"/>
+              <rect x="103" y="130" width="12" height="6"/>
+            </g>
+            <g fill="#FFFDF8">
+              <rect x="57" y="64" width="13" height="13"/>
+              <rect x="100" y="64" width="13" height="13"/>
+              <rect x="57" y="107" width="13" height="13"/>
+            </g>
+            <g fill="#0B2A1D">
+              <rect x="61" y="68" width="5" height="5"/>
+              <rect x="104" y="68" width="5" height="5"/>
+              <rect x="61" y="111" width="5" height="5"/>
+            </g>
+            <rect x="62" y="150" width="46" height="5" rx="2.5" fill="#0B2A1D" opacity="0.25"/>
+          </svg>
+        </div>
+        <p class="desc" data-desc data-reveal="fade">{t.steps[0].text}</p>
+      </div>
+
+      <!-- flecha 1 -->
+      <div class="conn" aria-hidden="true">
+        <svg data-arrow="1" viewBox="0 0 104 28" focusable="false">
+          <path class="shaft" d="M14 14 H80" fill="none" stroke="#0B2A1D" stroke-width="2.25" stroke-linecap="round"/>
+          <path class="head" d="M68 5 L83 14 L68 23" fill="none" stroke="#0B2A1D" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle class="node" cx="8" cy="14" r="3.5" fill="#C7F979" stroke="#0B2A1D" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <!-- 02 · GUARDAN -->
+      <div class="step" data-hstep="2">
+        <p class="num" data-hhead>{t.steps[1].n}</p>
+        <h3 data-hhead>{t.steps[1].title}</h3>
+        <div class="art">
+          <svg data-part="phone" viewBox="0 0 148 250" role="img" aria-hidden="true" focusable="false">
+            <ellipse cx="74" cy="242" rx="40" ry="6" fill="#0B2A1D" opacity="0.12"/>
+            <rect x="130.5" y="62" width="3.5" height="28" rx="1.75" fill="#0D1112"/>
+            <rect x="14" y="56" width="3.5" height="18" rx="1.75" fill="#0D1112"/>
+            <rect x="14" y="4" width="120" height="238" rx="30" fill="#0D1112"/>
+            <rect x="20" y="10" width="108" height="226" rx="24" fill="#FCF9F3"/>
+            <rect x="60" y="19" width="28" height="8" rx="4" fill="#0D1112"/>
+            <rect x="35" y="48" width="82" height="62" rx="11" fill="#163125"/>
+            <g data-card>
+              <rect x="31" y="56" width="82" height="62" rx="11" fill="#0B2A1D"/>
+              <circle cx="48" cy="77" r="10" fill="#C7F979"/>
+              <path d="M44 77h8M48 73v8" stroke="#0B2A1D" stroke-width="2" stroke-linecap="round"/>
+              <rect x="63" y="70" width="40" height="6" rx="3" fill="#FCF9F3" opacity="0.85"/>
+              <rect x="63" y="80" width="26" height="5" rx="2.5" fill="#FCF9F3" opacity="0.45"/>
+              <circle cx="42" cy="104" r="4" fill="#C7F979"/>
+              <circle cx="54" cy="104" r="4" fill="#C7F979"/>
+              <circle cx="66" cy="104" r="4" fill="#C7F979"/>
+              <circle cx="78" cy="104" r="4" fill="none" stroke="#FCF9F3" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="3 2"/>
+              <rect x="90" y="96" width="14" height="15" rx="3.5" fill="#C7F979"/>
+              <path d="M97 96v15M91.5 101.5h11M93.5 97.5c0-1.8 1.4-3 3.5-3s3.5 1.2 3.5 3" stroke="#0B2A1D" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </g>
+            <rect x="50" y="150" width="48" height="11" rx="5.5" fill="#0B2A1D" opacity="0.12"/>
+            <rect x="61" y="169" width="26" height="7" rx="3.5" fill="#0B2A1D" opacity="0.12"/>
+            <rect x="48" y="212" width="52" height="7" rx="3.5" fill="#0B2A1D"/>
+          </svg>
+        </div>
+        <p class="desc" data-desc data-reveal="fade">{t.steps[1].text}</p>
+      </div>
+
+      <!-- flecha 2 -->
+      <div class="conn" aria-hidden="true">
+        <svg data-arrow="2" viewBox="0 0 104 28" focusable="false">
+          <path class="shaft" d="M14 14 H80" fill="none" stroke="#0B2A1D" stroke-width="2.25" stroke-linecap="round"/>
+          <path class="head" d="M68 5 L83 14 L68 23" fill="none" stroke="#0B2A1D" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle class="node" cx="8" cy="14" r="3.5" fill="#C7F979" stroke="#0B2A1D" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <!-- 03 · ACUMULAN -->
+      <div class="step" data-hstep="3">
+        <p class="num" data-hhead>{t.steps[2].n}</p>
+        <h3 data-hhead>{t.steps[2].title}</h3>
+        <div class="art">
+          <svg data-part="reward" viewBox="0 0 196 196" role="img" aria-hidden="true" focusable="false">
+            <ellipse cx="98" cy="184" rx="48" ry="6" fill="#0B2A1D" opacity="0.12"/>
+            <circle cx="98" cy="94" r="88" fill="none" stroke="#0B2A1D" stroke-opacity="0.22" stroke-width="1.5"/>
+            <circle cx="98" cy="94" r="76" fill="#C7F979"/>
+            <circle cx="98" cy="94" r="61" fill="none" stroke="#0B2A1D" stroke-opacity="0.2" stroke-width="1.5"/>
+            <g data-gift transform="translate(98 94) scale(3.3) translate(-12 -12)">
+              <path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7s-1.5-5-4.5-5S4 7 12 7ZM12 7s1.5-5 4.5-5S20 7 12 7Z"
+                fill="none" stroke="#0B2A1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+        </div>
+        <p class="desc" data-desc data-reveal="fade">{t.steps[2].text}</p>
+      </div>
+    </div>
+
+    <div class="how-foot" data-reveal>
+      <hr class="hairline" aria-hidden="true" />
+      <p>{t.footStart}{t.footStrong.map((s, i) => (<><strong>{s}</strong>{i < t.footStrong.length - 1 ? " " : ""}</>))}{t.footEnd}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .how { padding: var(--section-space) 0; background: var(--reviko-cream); }
+  .how-head {
+    text-align: center; display: grid; gap: 1rem; justify-items: center;
+    margin-bottom: clamp(2.5rem, 8vw, 6.25rem);
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: start;
+    gap: 0 1rem;
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  .step { display: grid; justify-items: center; text-align: center; }
+  .num {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3em;
+    color: var(--reviko-sage); text-transform: uppercase;
+  }
+  .step h3 {
+    font-size: clamp(1.75rem, 2.2vw, 2.5rem);
+    font-weight: 800; letter-spacing: -0.03em; color: var(--reviko-green);
+    margin-top: 0.35rem;
+  }
+  .art {
+    height: 242px; display: grid; place-items: center; margin-top: 1.6rem;
+  }
+  .art svg { display: block; transition: transform 0.3s var(--ease-out); }
+  [data-part="qr"] { height: 186px; width: auto; }
+  [data-part="phone"] { height: 238px; width: auto; }
+  [data-part="reward"] { height: 192px; width: auto; }
+  [data-hstep="1"] .art svg:hover { transform: translateY(-3px); }
+  [data-hstep="2"] .art svg:hover { transform: translateY(-4px); }
+  [data-hstep="3"] .art svg:hover { transform: scale(1.025); }
+  .desc {
+    margin-top: 1.6rem; max-width: 290px;
+    color: var(--reviko-sage); font-size: 0.98rem;
+  }
+  .conn { margin-top: 190px; }
+  .conn svg { display: block; width: 84px; height: auto; overflow: visible; }
+  .how-foot { max-width: 720px; margin: 4rem auto 0; text-align: center; }
+  .how-foot .hairline { margin-bottom: 1.6rem; }
+  .how-foot p { font-weight: 500; color: var(--reviko-green); font-size: 1.05rem; }
+  .how-foot strong { font-weight: 800; }
+  @media (min-width: 980px) {
+  }
+  @media (max-width: 860px) {
+    .flow { grid-template-columns: 1fr; gap: 0; justify-items: center; }
+    .step { width: 100%; max-width: 340px; }
+    .art { height: auto; margin-top: 1.4rem; }
+    [data-part="qr"] { height: 172px; }
+    [data-part="phone"] { height: 220px; }
+    [data-part="reward"] { height: 180px; }
+    .conn { margin: 1.8rem 0; }
+    .conn svg { width: 76px; transform: rotate(90deg); }
+    .desc { margin-top: 1.2rem; }
+  }
+  @media (max-width: 639px) {
+    .how { padding-block: var(--section-space); }
+    .step h3 { font-size: clamp(1.6rem, 7vw, 2rem); }
+    .art { margin-top: 1rem; }
+  }
+</style>

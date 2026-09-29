@@ -1,0 +1,26 @@
+---
+/* Redirect de compatibilidad: slugs españoles antiguos → esquema actual. */
+export interface Props {
+  to: string;
+  title: string;
+}
+const { to, title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title} | reviko</title>
+    <link rel="canonical" href={to} />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <p>Redirigiendo a <a href={to}>{to}</a>…</p>
+    <script is:inline>
+      window.location.replace(document.querySelector("link[rel=canonical]").href);
+    </script>
+  </body>
+</html>

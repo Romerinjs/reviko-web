@@ -1,0 +1,31 @@
+---
+/* mode="sidebar": columna sticky en desktop.
+   mode="inline": <details> colapsable en mobile.
+   El listado se genera en cliente desde los H2 (src/scripts/legal.ts). */
+export interface Props {
+  mode: "sidebar" | "inline";
+  label?: string;
+}
+const { mode, label = "On this page" } = Astro.props;
+---
+
+{mode === "sidebar" ? (
+  <aside class="legal-toc" aria-label={label}>
+    <div class="legal-toc-inner">
+      <p class="legal-toc-label" aria-hidden="true">{label}</p>
+      <ol data-toc-list></ol>
+    </div>
+  </aside>
+) : (
+  <div class="legal-toc-mobile">
+    <details>
+      <summary>
+        <span>{label}</span>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </summary>
+      <ol data-toc-list-mobile></ol>
+    </details>
+  </div>
+)}

@@ -1,0 +1,36 @@
+---
+import type { Locale } from "../../i18n/config";
+import { ui } from "../../i18n/ui";
+import LanguageSwitcher from "../LanguageSwitcher.astro";
+
+export interface Props {
+  locale?: Locale;
+  basePath: string;
+}
+const { locale = "es", basePath } = Astro.props;
+const t = ui[locale].legalChrome;
+---
+
+<header class="legal-top">
+  <div class="legal-top-inner">
+    <a href={locale === "es" ? "/" : "/en/"} class="legal-brand" aria-label={ui[locale].brandHome}>
+      <img src="/reviko-la-vuelta.svg" alt="" width="32" height="32" />
+      <span class="wordmark">reviko</span>
+    </a>
+    <span class="legal-section-label" aria-hidden="true">{t.sectionLabel}</span>
+    <div class="legal-top-right">
+      <LanguageSwitcher locale={locale} basePath={basePath} />
+      <a href={locale === "es" ? "/" : "/en/"} class="legal-back">
+        <span>{t.back}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .legal-top-right { display: flex; align-items: center; gap: 1.1rem; }
+</style>

@@ -1,0 +1,65 @@
+---
+/* ES | EN. Preserva la ruta equivalente + hash + query. Sin banderas. */
+import type { Locale } from "../i18n/config";
+import { localizedPath } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale: Locale;
+  /** ruta base en español de la página actual (p.ej. "/privacy" o "/") */
+  basePath: string;
+}
+
+const { locale, basePath } = Astro.props;
+const t = ui[locale];
+const esHref = localizedPath(basePath, "es");
+const enHref = localizedPath(basePath, "en");
+---
+
+<nav class="lang-switch" aria-label={t.switcherLabel}>
+  <a
+    href={esHref}
+    data-locale-path={esHref}
+    data-locale-link="es"
+    aria-current={locale === "es" ? "true" : undefined}
+    lang="es"
+  >ES</a>
+  <span aria-hidden="true">/</span>
+  <a
+    href={enHref}
+    data-locale-path={enHref}
+    data-locale-link="en"
+    aria-current={locale === "en" ? "true" : undefined}
+    lang="en"
+  >EN</a>
+</nav>
+
+<style>
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .lang-switch span { opacity: 0.4; }
+  .lang-switch a {
+    color: var(--reviko-sage);
+    padding: 0.3rem 0.15rem;
+    border-bottom: 2px solid transparent;
+    text-underline-offset: 4px;
+  }
+  .lang-switch a:hover { color: var(--reviko-green); }
+  .lang-switch a[aria-current="true"] {
+    color: var(--reviko-green);
+    border-bottom-color: var(--reviko-lime-deep, #a8e04b);
+  }
+  .on-dark .lang-switch a { color: rgb(252 249 243 / 0.7); }
+  .on-dark .lang-switch a:hover,
+  .on-dark .lang-switch a[aria-current="true"] { color: var(--reviko-cream); }
+  @media (max-width: 1119px) {
+    .lang-switch { gap: 0.18rem; font-size: 0.75rem; letter-spacing: 0.06em; }
+    .lang-switch a { min-width: 28px; min-height: 44px; display: inline-grid; place-items: center; padding: 0 0.12rem; }
+  }
+</style>

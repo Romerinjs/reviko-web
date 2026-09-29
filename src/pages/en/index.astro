@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Hero from "../../sections/Hero.astro";
+import Problem from "../../sections/Problem.astro";
+import HowItWorks from "../../sections/HowItWorks.astro";
+import ProductShowcase from "../../sections/ProductShowcase.astro";
+import Industries from "../../sections/Industries.astro";
+import RewardWays from "../../sections/RewardWays.astro";
+import FinalCta from "../../sections/FinalCta.astro";
+
+const locale = "en" as const;
+---
+
+<BaseLayout locale={locale} basePath="/">
+  <Header locale={locale} basePath="/" />
+  <main id="contenido">
+    <Hero locale={locale} />
+    <Problem locale={locale} />
+    <HowItWorks locale={locale} />
+    <ProductShowcase locale={locale} />
+    <Industries locale={locale} />
+    <RewardWays locale={locale} />
+    <FinalCta locale={locale} />
+  </main>
+</BaseLayout>

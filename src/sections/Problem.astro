@@ -1,0 +1,78 @@
+---
+import Eyebrow from "../components/Eyebrow.astro";
+import CircleCta from "../components/CircleCta.astro";
+import type { Locale } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale?: Locale;
+}
+const { locale = "es" } = Astro.props;
+const t = ui[locale].problem;
+---
+
+<section class="problem on-dark" aria-labelledby="problem-title">
+  <div class="container problem-grid">
+    <div>
+      <Eyebrow dark>{t.eyebrow}</Eyebrow>
+      <h2 id="problem-title" class="display-sm" data-lines>
+        {t.title.map((line) => (
+          <span class="line"><span>{line}</span></span>
+        ))}
+      </h2>
+      <div class="people" data-people aria-hidden="true">
+        <span class="person"></span>
+        <span class="person"></span>
+        <span class="person"></span>
+        <span class="person"></span>
+        <span class="person"></span>
+      </div>
+      <div class="problem-foot">
+        <p>{t.foot}</p>
+        <CircleCta href="#how-it-works" label={t.ctaLabel} dark />
+      </div>
+    </div>
+    <p class="side-note" data-reveal>{t.sideNote}</p>
+  </div>
+</section>
+
+<style>
+  .problem {
+    background: var(--reviko-green);
+    color: var(--reviko-cream);
+    padding: var(--section-space) 0;
+  }
+  .display-sm { margin-top: 1rem; max-width: 12ch; }
+  .people { display: flex; gap: clamp(0.45rem, 2vw, 0.9rem); margin: 2.4rem 0; }
+  .person {
+    width: 52px; max-width: 52px; min-width: 0; height: 72px; flex: 1 1 0; border-radius: 26px 26px 14px 14px;
+    background: rgb(252 249 243 / 0.22);
+    position: relative;
+    transition: background 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+  }
+  .person::before {
+    content: ""; position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 22px; height: 22px; border-radius: 50%; background: currentColor; opacity: 0.9;
+  }
+  .person { color: rgb(252 249 243 / 0.35); }
+  .person.is-hot { background: var(--reviko-lime); color: var(--reviko-green); transform: translateY(-6px); }
+  .problem-foot { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
+  .problem-foot p { font-size: 1.15rem; max-width: 22rem; }
+  .problem-grid { display: grid; gap: 2rem; }
+  .side-note {
+    align-self: end; justify-self: start;
+    border-left: 1px solid rgb(199 249 121 / 0.4);
+    padding-left: 1.2rem; color: var(--reviko-lime-soft); max-width: 20rem;
+  }
+  @media (min-width: 980px) {
+    .problem-grid { grid-template-columns: 1.3fr 0.7fr; }
+    .side-note { justify-self: end; }
+  }
+  @media (max-width: 639px) {
+    .display-sm { max-width: 14ch; }
+    .people { margin: 1.8rem 0; }
+    .person { height: 62px; }
+    .problem-foot { gap: 1rem; }
+    .problem-foot p { font-size: 1rem; }
+  }
+</style>

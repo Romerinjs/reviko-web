@@ -1,0 +1,87 @@
+---
+import Eyebrow from "../components/Eyebrow.astro";
+import ArrowButton from "../components/ArrowButton.astro";
+import RewardProgress from "../components/RewardProgress.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import type { Locale } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale?: Locale;
+}
+const { locale = "es" } = Astro.props;
+const t = ui[locale].final;
+---
+
+<section class="final on-dark" id="cta" aria-labelledby="cta-title">
+  <img
+    class="final-mark"
+    src="/reviko-la-vuelta.svg"
+    alt=""
+    aria-hidden="true"
+    loading="lazy"
+    decoding="async"
+    width="480"
+    height="480"
+    data-final-mark
+  />
+  <div class="container final-inner" data-final-sequence>
+    <div data-final-eyebrow><Eyebrow dark>{t.eyebrow}</Eyebrow></div>
+    <h2 id="cta-title" class="display" data-lines>
+      {t.title.map((line) => (
+        <span class="line"><span>{line}</span></span>
+      ))}
+    </h2>
+    <p class="sub" data-final-description>{t.sub}</p>
+    <div class="final-stamps on-dark" data-final-reward>
+      <RewardProgress total={6} filled={6} icon="coffee" label={t.stampsLabel} />
+    </div>
+    <div class="final-ctas" data-final-button>
+      <ArrowButton href="#top" variant="lime" label={t.cta} />
+    </div>
+    <p class="micro">{t.micro}</p>
+  </div>
+</section>
+
+<SiteFooter locale={locale} />
+
+<style>
+  .final {
+    background: var(--reviko-green);
+    color: var(--reviko-cream);
+    padding: 7rem 0 5rem;
+    text-align: left;
+    position: relative;
+    overflow: clip;
+  }
+  .final-mark {
+    position: absolute;
+    top: 50%;
+    right: clamp(-140px, -6vw, -40px);
+    width: clamp(260px, 34vw, 480px);
+    height: auto;
+    aspect-ratio: 1;
+    transform: translateY(-50%);
+    opacity: 0.9;
+    pointer-events: none;
+    user-select: none;
+  }
+  .final-inner { display: grid; gap: 1.4rem; justify-items: start; position: relative; z-index: 1; }
+  .final .display { color: var(--reviko-cream); }
+  .sub { color: rgb(252 249 243 / 0.78); max-width: 32rem; font-size: 1.1rem; }
+  @media (min-width: 640px) {
+    .final-stamps :global(.stamp) { width: 52px; height: 52px; }
+  }
+  .final-ctas { margin-top: 0.6rem; }
+  .micro {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--reviko-lime-soft);
+  }
+  @media (max-width: 639px) {
+    .final { padding: 4.5rem 0 3.5rem; }
+    .final .display { font-size: clamp(2.8rem, 13vw, 4.4rem); }
+    .sub { font-size: 1rem; }
+    .micro { font-size: 0.64rem; letter-spacing: 0.16em; }
+    .final-mark { width: clamp(180px, 65vw, 280px); right: -4rem; }
+  }
+</style>

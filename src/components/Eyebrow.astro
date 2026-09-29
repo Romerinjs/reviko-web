@@ -1,0 +1,12 @@
+---
+export interface Props {
+  dark?: boolean;
+  center?: boolean;
+  children: unknown;
+}
+const { dark = false, center = false } = Astro.props;
+---
+
+<span class:list={["eyebrow", dark && "on-dark", center && "center"]}>
+  <slot />
+</span>

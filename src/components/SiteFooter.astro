@@ -1,0 +1,175 @@
+---
+/* Footer único de todo el sitio: home + páginas legales, ES + EN.
+   Basado en el diseño editorial de Legal / Policies. */
+import type { Locale } from "../i18n/config";
+import { localizedHomeAnchor, localizedPath } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale?: Locale;
+}
+const { locale = "es" } = Astro.props;
+const t = ui[locale].legalChrome;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="footer-brand" data-reveal="up" aria-hidden="true">
+      <img
+        class="footer-brand-mark"
+        src="/reviko-la-vuelta.svg"
+        alt=""
+        width="240"
+        height="240"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="footer-brand-word">reviko</span>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-org" data-reveal="fade">
+        <p class="org-name">{t.org}</p>
+        <p class="org-address">
+          2 South Biscayne Boulevard, Suite 3200<br />
+          Miami, FL 33131, United States
+        </p>
+      </div>
+      <nav class="footer-column footer-explore" aria-label={t.exploreTitle}>
+        <h2 class="footer-label" data-reveal="fade">{t.exploreTitle}</h2>
+        <ul data-reveal-group>
+          {t.explore.map((item) => (
+            <li><a href={localizedHomeAnchor(item.anchor, locale)}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <nav class="footer-column footer-docs" aria-label={t.relatedTitle}>
+        <h2 class="footer-label" data-reveal="fade">{t.legalTitle}</h2>
+        <ul data-reveal-group>
+          {t.docs.map((d) => <li><a href={d.href}>{d.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-base" data-reveal="fade">
+      <a class="back-home" href={localizedPath("/", locale)}>{t.backHome}</a>
+      <a href="https://reviko.io">reviko.io</a>
+      <span>© {year} {t.org}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--reviko-green-deep, #081f15);
+    color: var(--reviko-cream);
+    border-top: 1px solid rgb(252 249 243 / 0.12);
+    padding: clamp(4rem, 7vw, 5.5rem) 0 2.5rem;
+    overflow: clip;
+  }
+  .site-footer-inner {
+    width: min(1400px, calc(100% - var(--page-gutter) - var(--page-gutter)));
+    margin-inline: auto;
+  }
+  .footer-brand {
+    position: relative;
+    display: inline-block;
+    margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  }
+  .footer-brand-mark {
+    position: absolute;
+    top: -18%;
+    left: -9%;
+    width: clamp(160px, 20vw, 250px);
+    height: auto;
+    opacity: 0.35;
+    pointer-events: none;
+    user-select: none;
+  }
+  .footer-brand-word {
+    position: relative;
+    z-index: 1;
+    display: block;
+    font-size: clamp(4rem, 8vw, 8.5rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--reviko-cream);
+    user-select: none;
+  }
+  .footer-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 900px) {
+    .footer-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 1fr); align-items: start; }
+  }
+  .org-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.6rem; }
+  .org-address { color: rgb(252 249 243 / 0.8); line-height: 1.75; }
+  .footer-column { min-width: 0; }
+  .footer-label {
+    margin-bottom: 1rem;
+    color: rgb(252 249 243 / 0.58);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .footer-column ul {
+    display: grid;
+    justify-items: start;
+    gap: 0.48rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .footer-column a {
+    display: inline-block;
+    color: rgb(252 249 243 / 0.85);
+    font-size: 0.94rem;
+    font-weight: 600;
+    transition: color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+  }
+  .footer-column a:hover { color: var(--reviko-lime); transform: translateX(3px); }
+  .footer-docs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-docs ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.4rem;
+    row-gap: 0.48rem;
+  }
+  .footer-base {
+    margin-top: clamp(2.5rem, 4vw, 3.5rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(252 249 243 / 0.14);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.8rem;
+    font-size: 0.9rem;
+    color: rgb(252 249 243 / 0.65);
+  }
+  .footer-base a {
+    color: rgb(252 249 243 / 0.85);
+    font-weight: 600;
+    transition: color 0.25s var(--ease-out);
+  }
+  .footer-base a:hover { color: var(--reviko-lime); }
+  .footer-base .back-home svg { display: inline-block; vertical-align: baseline; }
+  @media (max-width: 640px) {
+    .footer-brand-word { font-size: clamp(3.4rem, 18vw, 6rem); }
+    .footer-brand-mark { width: clamp(100px, 32vw, 160px); }
+    .footer-grid { gap: 2rem; }
+    .footer-docs ul { grid-template-columns: 1fr; }
+    .footer-column ul { gap: 0.15rem; }
+    .footer-column a { min-height: 40px; display: inline-flex; align-items: center; }
+    .footer-base { gap: 0.7rem 1.2rem; }
+  }
+  @media print {
+    .site-footer { display: none !important; }
+  }
+</style>

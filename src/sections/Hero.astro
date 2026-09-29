@@ -1,0 +1,202 @@
+---
+import Eyebrow from "../components/Eyebrow.astro";
+import ArrowButton from "../components/ArrowButton.astro";
+import RewardProgress from "../components/RewardProgress.astro";
+import type { Locale } from "../i18n/config";
+import { ui } from "../i18n/ui";
+
+export interface Props {
+  locale?: Locale;
+}
+const { locale = "es" } = Astro.props;
+const t = ui[locale].hero;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <img
+    class="hero-mark"
+    src="/reviko-la-vuelta.svg"
+    alt=""
+    aria-hidden="true"
+    loading="eager"
+    decoding="async"
+    width="520"
+    height="520"
+  />
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div data-hero="eyebrow"><Eyebrow>{t.eyebrow}</Eyebrow></div>
+      <h1 id="hero-title" class="display" data-lines aria-label={t.titleLabel}>
+        {t.title.map((line) => (
+          <span class="line"><span class={line === t.title[t.title.length - 1] ? "accent" : undefined}>{line}</span></span>
+        ))}
+      </h1>
+      <p class="lede" data-hero="lede">{t.lede}</p>
+      <p class="sub" data-hero="sub">{t.sub}</p>
+      <div class="ctas" data-hero="ctas">
+        <ArrowButton href="#cta" variant="primary" label={ui[locale].ctaStart} />
+        <ArrowButton href="#how-it-works" variant="ghost" label={t.ctaSecondary} />
+      </div>
+      <p class="micro" data-hero="micro">{t.micro}</p>
+    </div>
+
+    <div class="hero-visual" data-hero="visual">
+      <figure class="photo-main" data-parallax="-6">
+        <img
+          data-hero-image
+          src="/images/img-1.jpg"
+          alt={t.imgAlt}
+          width="1122"
+          height="1402"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
+
+      <div class="phone" data-hero-phone role="img" aria-label={t.phoneLabel}>
+        <div class="phone-notch" aria-hidden="true"></div>
+        <div class="phone-head">
+          <span class="phone-brand">reviko</span>
+          <span class="phone-shop">{t.phoneShop}</span>
+        </div>
+        <div class="phone-stamps">
+          <RewardProgress total={5} filled={4} icon="coffee" />
+        </div>
+        <div class="phone-qr" aria-hidden="true">
+          <svg viewBox="0 0 80 80" width="76" height="76"><rect x="4" y="4" width="26" height="26" fill="none" stroke="#0B2A1D" stroke-width="5"/><rect x="50" y="4" width="26" height="26" fill="none" stroke="#0B2A1D" stroke-width="5"/><rect x="4" y="50" width="26" height="26" fill="none" stroke="#0B2A1D" stroke-width="5"/><rect x="12" y="12" width="10" height="10" fill="#0B2A1D"/><rect x="58" y="12" width="10" height="10" fill="#0B2A1D"/><rect x="12" y="58" width="10" height="10" fill="#0B2A1D"/><rect x="42" y="42" width="8" height="8" fill="#0B2A1D"/><rect x="54" y="50" width="6" height="6" fill="#0B2A1D"/><rect x="62" y="62" width="10" height="10" fill="#0B2A1D"/><rect x="42" y="60" width="6" height="12" fill="#0B2A1D"/></svg>
+          <p>{t.phoneQrText}</p>
+        </div>
+        <div class="phone-wallet">{t.phoneWallet}</div>
+      </div>
+
+      <div class="float-chip chip-a" data-hero="chip">{t.chipA}</div>
+      <div class="float-chip chip-b" data-hero="chip">{t.chipB}</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: calc(var(--header-h) + 2.5rem) 0 3.5rem;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: clip;
+  }
+  .hero-mark {
+    position: absolute;
+    left: clamp(-160px, -8vw, -50px);
+    top: 4%;
+    width: clamp(320px, 38vw, 540px);
+    height: auto;
+    aspect-ratio: 1;
+    opacity: 0.45;
+    pointer-events: none;
+    user-select: none;
+  }
+  .hero-grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3rem);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .display .accent { color: var(--reviko-green); position: relative; }
+  .display .accent::after {
+    content: ""; position: absolute; left: 0; right: 6%; bottom: 6%;
+    height: 0.14em; background: var(--reviko-lime); z-index: -1; border-radius: 4px;
+  }
+  .lede {
+    margin-top: 1.2rem;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--reviko-green);
+  }
+  .sub { margin-top: 0.7rem; max-width: 34rem; color: var(--reviko-sage); font-size: 1.05rem; }
+  .ctas { margin-top: 1.8rem; display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .micro {
+    margin-top: 1.4rem; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.28em; text-transform: uppercase; color: var(--reviko-sage);
+  }
+  .hero-visual { position: relative; width: 100%; aspect-ratio: 4 / 5; }
+  .photo-main { position: absolute; inset: 0; margin: 0; overflow: hidden; border-radius: 12px; }
+  .photo-main img {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 12px; border: 1px solid rgb(11 42 29 / 0.12);
+  }
+  .phone {
+    position: absolute; right: 0; bottom: 2%;
+    width: min(300px, 78%);
+    background: var(--reviko-card);
+    border: 1px solid rgb(11 42 29 / 0.14);
+    border-radius: 34px;
+    padding: 1rem 1rem 1.1rem;
+    box-shadow: var(--shadow-card);
+  }
+  .phone-notch {
+    width: 110px; height: 22px; background: var(--reviko-ink);
+    border-radius: 999px; margin: 0 auto 0.8rem;
+  }
+  .phone-head {
+    background: var(--reviko-green); color: var(--reviko-cream);
+    border-radius: 16px; padding: 0.9rem; display: grid; gap: 0.2rem;
+  }
+  .phone-brand { font-weight: 800; letter-spacing: -0.04em; font-size: 1.1rem; }
+  .phone-shop { font-size: 0.82rem; opacity: 0.85; }
+  .phone-stamps { min-width: 0; padding: 0.9rem 0.2rem; }
+  .phone-stamps :global(.stamp) { max-width: 36px; }
+  .phone-qr { display: grid; place-items: center; gap: 0.5rem; text-align: center; font-size: 0.8rem; color: var(--reviko-sage); }
+  .phone-wallet {
+    margin-top: 0.8rem; background: var(--reviko-ink); color: #fff;
+    border-radius: 999px; text-align: center; font-weight: 700; font-size: 0.85rem; padding: 0.7rem;
+  }
+  .float-chip {
+    position: absolute; font-size: 0.78rem; font-weight: 800;
+    background: var(--reviko-lime); color: var(--reviko-green);
+    padding: 0.55rem 0.9rem; border-radius: 999px;
+    box-shadow: var(--shadow-soft); max-width: calc(100% - 0.5rem);
+  }
+  .chip-a { top: 6%; left: 0; }
+  .chip-b { bottom: 34%; left: 0; background: var(--reviko-cream); border: 1px solid rgb(11 42 29 / 0.14); }
+  @media (min-width: 980px) {
+    .hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 2rem; }
+    .hero-visual { min-height: 640px; aspect-ratio: auto; }
+    .photo-main { width: 78%; }
+    .phone { right: 2%; }
+  }
+  @media (max-width: 979px) {
+    .hero { padding-top: calc(var(--header-h) + 1.25rem); }
+    .hero-visual { max-width: 36rem; justify-self: center; }
+  }
+  @media (max-width: 979px) {
+    .hero-mark {
+      top: auto;
+      right: -6rem;
+      bottom: 2rem;
+      left: auto;
+      width: clamp(250px, 48vw, 360px);
+      opacity: 0.24;
+    }
+  }
+  @media (max-width: 639px) {
+    .hero { min-height: 0; padding: calc(var(--header-h) + 1.5rem) 0 3.25rem; }
+    .hero-grid { gap: 2.25rem; }
+    .display { font-size: clamp(3rem, 14vw, 4.6rem); }
+    .lede { margin-top: 1rem; font-size: clamp(1.15rem, 5vw, 1.35rem); }
+    .sub { font-size: 1rem; }
+    .ctas { margin-top: 1.35rem; flex-direction: column; align-items: flex-start; gap: 0.65rem; }
+    .micro { max-width: 34ch; margin-top: 1.1rem; font-size: 0.65rem; letter-spacing: 0.18em; }
+    .phone { width: min(300px, 78%); padding: 0.8rem 0.8rem 0.9rem; border-radius: 28px; }
+    .phone-notch { width: 88px; height: 18px; margin-bottom: 0.65rem; }
+    .phone-head { padding: 0.7rem; }
+    .phone-shop { font-size: 0.74rem; }
+    .phone-stamps { padding: 0.65rem 0.1rem; }
+    .phone-qr svg { width: 64px; height: 64px; }
+    .phone-qr { font-size: 0.72rem; }
+    .phone-wallet { font-size: 0.76rem; padding: 0.6rem; }
+    .float-chip { font-size: 0.66rem; padding: 0.4rem 0.65rem; }
+    .chip-b { bottom: 32%; }
+  }
+</style>

@@ -1,0 +1,1304 @@
+==================================================
+STACK OBLIGATORIO: ASTRO + GSAP
+==================================================
+
+La landing de reviko debe construirse específicamente utilizando:
+
+- Astro
+- TypeScript
+- GSAP
+- GSAP ScrollTrigger
+- CSS moderno
+
+Este es el stack obligatorio.
+
+NO utilizar:
+
+- React como framework principal
+- Next.js
+- Vite standalone
+- Framer Motion
+- Motion
+- Vue
+- Svelte
+
+Astro debe ser el framework base de toda la aplicación.
+
+GSAP debe ser el sistema principal de motion y scroll animation.
+
+Si el proyecto existente ya utiliza Astro, respeta su arquitectura actual.
+
+Si hay que iniciar el proyecto desde cero, utiliza la versión estable actual de Astro y una estructura limpia y mantenible.
+
+==================================================
+PRINCIPIO ARQUITECTÓNICO
+==================================================
+
+Esta web es principalmente una landing de marketing.
+
+Por lo tanto:
+
+aprovecha Astro para enviar la menor cantidad posible de JavaScript al navegador.
+
+NO conviertas innecesariamente toda la landing en componentes React.
+
+Prioriza:
+
+.astro
+HTML semántico
+CSS
+TypeScript
+GSAP
+
+Utiliza JavaScript solamente donde haya:
+
+- animaciones
+- interacción
+- comportamiento dinámico real
+
+La landing debe seguir funcionando visualmente aunque JavaScript tarde en ejecutarse.
+
+No construir una SPA innecesariamente.
+
+==================================================
+ESTRUCTURA RECOMENDADA
+==================================================
+
+Utiliza una arquitectura similar a:
+
+src/
+├── components/
+│   ├── ui/
+│   │   ├── ArrowButton.astro
+│   │   ├── Eyebrow.astro
+│   │   ├── RewardProgress.astro
+│   │   ├── SectionHeading.astro
+│   │   └── ...
+│   │
+│   ├── sections/
+│   │   ├── Header.astro
+│   │   ├── Hero.astro
+│   │   ├── Problem.astro
+│   │   ├── HowItWorks.astro
+│   │   ├── ProductShowcase.astro
+│   │   ├── Industries.astro
+│   │   ├── Rewards.astro
+│   │   ├── Community.astro
+│   │   ├── FinalCTA.astro
+│   │   └── Footer.astro
+│   │
+│   └── visuals/
+│       ├── PhoneMockup.astro
+│       ├── DashboardMockup.astro
+│       └── ...
+│
+├── layouts/
+│   └── Layout.astro
+│
+├── pages/
+│   └── index.astro
+│
+├── scripts/
+│   ├── animations/
+│   │   ├── hero.ts
+│   │   ├── reveals.ts
+│   │   ├── counters.ts
+│   │   ├── rewards.ts
+│   │   ├── industries.ts
+│   │   └── scroll.ts
+│   │
+│   └── initAnimations.ts
+│
+├── styles/
+│   ├── global.css
+│   ├── tokens.css
+│   └── typography.css
+│
+└── data/
+    └── industries.ts
+
+No es obligatorio seguir exactamente estos nombres si existe una arquitectura mejor en el repositorio.
+
+Sí es obligatorio:
+
+- evitar archivos gigantes
+- separar responsabilidades
+- abstraer animaciones repetidas
+- mantener el código entendible
+
+==================================================
+ASTRO FIRST
+==================================================
+
+Los componentes puramente visuales deben ser componentes Astro.
+
+Ejemplos:
+
+Header.astro
+Hero.astro
+RewardProgress.astro
+Industries.astro
+Footer.astro
+
+No incorporar frameworks de UI solamente para resolver elementos que Astro puede renderizar directamente.
+
+Si una interacción puede hacerse con:
+
+HTML + CSS + GSAP
+
+hacerlo así.
+
+==================================================
+GSAP COMO MOTOR DE MOTION
+==================================================
+
+Toda animación importante debe implementarse con GSAP.
+
+Utilizar principalmente:
+
+gsap
+ScrollTrigger
+
+Registrar correctamente ScrollTrigger:
+
+gsap.registerPlugin(ScrollTrigger)
+
+Las animaciones deben estar organizadas y no dispersas aleatoriamente por todos los componentes.
+
+Crear funciones reutilizables cuando sea razonable.
+
+Por ejemplo:
+
+initHeroAnimations()
+initScrollReveals()
+initCounters()
+initRewardAnimations()
+initIndustryStorytelling()
+initImageReveals()
+
+==================================================
+GSAP CONTEXT
+==================================================
+
+Cuando corresponda, utilizar:
+
+gsap.context()
+
+para agrupar animaciones relacionadas con una sección.
+
+Esto facilitará:
+
+- cleanup
+- mantenimiento
+- evitar animaciones duplicadas
+- integración futura con navegación Astro
+
+Evitar crear ScrollTriggers sin tener una estrategia de cleanup.
+
+==================================================
+SCROLLTRIGGER
+==================================================
+
+ScrollTrigger debe utilizarse estratégicamente.
+
+Ejemplos válidos:
+
+- reveals al entrar al viewport
+- pinning editorial
+- parallax
+- scrub animations
+- progress
+- storytelling
+- cambio de estado de elementos
+- gráficos animados
+- reward progress
+- image masks
+- sticky industry sections
+
+No convertir cada texto de la página en un ScrollTrigger individual innecesario.
+
+Agrupar animaciones siempre que sea posible.
+
+==================================================
+NO SCROLL HIJACKING
+==================================================
+
+MUY IMPORTANTE:
+
+No secuestrar el scroll del usuario.
+
+La página debe conservar scroll nativo.
+
+NO implementar:
+
+- scroll artificial lento
+- scroll con inertia excesiva
+- snapping agresivo
+- secciones que impidan avanzar
+- scroll horizontal forzado en mobile
+
+No instalar Lenis, locomotive-scroll o similares por defecto.
+
+El scroll nativo + GSAP ScrollTrigger es suficiente.
+
+Solo introducir una librería adicional de smooth scrolling si existe una razón técnica clara y justificable.
+
+==================================================
+SCRUB
+==================================================
+
+Utilizar scrub únicamente cuando exista una relación lógica entre:
+
+scroll del usuario
+↕
+transformación visual
+
+Ejemplos:
+
+parallax fotográfico
+reward progress
+progreso de una línea
+storytelling editorial
+movimiento leve de elementos
+
+Ejemplo conceptual:
+
+ScrollTrigger.create({
+  trigger: section,
+  start: "top bottom",
+  end: "bottom top",
+  scrub: true
+})
+
+No utilizar scrub en todos los reveals.
+
+Los reveals normales deben reproducirse una vez.
+
+==================================================
+REVEAL SYSTEM
+==================================================
+
+Construir un pequeño sistema consistente de reveals.
+
+Elementos con:
+
+[data-reveal]
+
+pueden aparecer mediante:
+
+opacity: 0 → 1
+y: 32 → 0
+
+Elementos:
+
+[data-reveal="scale"]
+
+pueden usar:
+
+opacity: 0 → 1
+scale: 0.96 → 1
+
+Imágenes:
+
+[data-reveal="image"]
+
+usar:
+
+clip-path
+mask
+scale muy sutil
+
+No repetir manualmente el mismo código GSAP decenas de veces.
+
+==================================================
+TEXT REVEALS
+==================================================
+
+Los headlines principales deben tener reveals editoriales.
+
+Ejemplo:
+
+Haz que
+vuelvan.
+
+Las líneas pueden estar envueltas en:
+
+overflow: hidden
+
+y el contenido interno animarse:
+
+yPercent: 110
+→
+yPercent: 0
+
+Usar stagger ligero.
+
+NO hacer animaciones de letras individualmente en todos los textos.
+
+La prioridad son:
+
+- líneas
+- palabras cuando tenga sentido
+- bloques tipográficos
+
+El resultado debe sentirse editorial, no como una demo de GSAP.
+
+==================================================
+HERO TIMELINE
+==================================================
+
+Crear una timeline GSAP específica para el hero.
+
+Conceptualmente:
+
+const tl = gsap.timeline({
+  defaults: {
+    ease: "power3.out"
+  }
+})
+
+Secuencia aproximada:
+
+navbar
+↓
+eyebrow
+↓
+headline line 1
+↓
+headline line 2
+↓
+copy
+↓
+CTA
+↓
+imagen principal
+↓
+elementos secundarios
+
+Utilizar overlaps:
+
+"-=0.4"
+
+para que la animación sea fluida y no mecánica.
+
+Duración total razonable:
+
+aproximadamente 1.2 - 1.8 segundos.
+
+No bloquear interacción.
+
+==================================================
+IMAGE REVEALS
+==================================================
+
+Las fotografías son fundamentales para reviko.
+
+Crear reveals premium utilizando:
+
+clip-path
+
+por ejemplo:
+
+inset(0 100% 0 0)
+→
+inset(0 0% 0 0)
+
+o:
+
+inset(100% 0 0 0)
+→
+inset(0% 0 0 0)
+
+Al mismo tiempo puede existir un scale:
+
+1.04
+→
+1
+
+muy sutil.
+
+Esto debe hacer que la fotografía entre como una pieza editorial.
+
+==================================================
+PARALLAX
+==================================================
+
+Aplicar parallax solo a fotografías seleccionadas.
+
+Movimiento máximo:
+
+aproximadamente 5-10%.
+
+Ejemplo:
+
+gsap.fromTo(
+  image,
+  { yPercent: -5 },
+  {
+    yPercent: 5,
+    ease: "none",
+    scrollTrigger: {
+      trigger: container,
+      scrub: true
+    }
+  }
+)
+
+No aplicar parallax indiscriminadamente.
+
+==================================================
+STICKY STORYTELLING
+==================================================
+
+En desktop, la sección de industrias puede utilizar ScrollTrigger para crear storytelling.
+
+Ejemplo conceptual:
+
+Lado izquierdo:
+
+copy sticky
+
+Lado derecho:
+
+fotografía / reward visual
+
+Con el scroll cambian:
+
+RESTAURANTE
+
+“Premia cada visita.”
+
+↓
+
+BARBERÍA
+
+“8 cortes.
+El 9.º es gratis.”
+
+↓
+
+AUTOLAVADO
+
+“5 lavadas.
+La 6.ª va por la casa.”
+
+↓
+
+ESTÉTICA
+
+“Cada cita es una razón para volver.”
+
+La transición entre industrias puede utilizar:
+
+- fade
+- clip-path
+- translateY
+- pequeño scale
+- cambio de reward progress
+
+NO hacer cambios bruscos.
+
+==================================================
+PINNING
+==================================================
+
+Se puede utilizar:
+
+pin: true
+
+pero solamente en secciones donde realmente mejore la experiencia.
+
+Principal candidata:
+
+Industries / storytelling.
+
+Posiblemente:
+
+How it works.
+
+No llenar la página de secciones pinned.
+
+En mobile:
+
+desactivar pinning complejo.
+
+==================================================
+GSAP MATCHMEDIA
+==================================================
+
+Utilizar:
+
+gsap.matchMedia()
+
+para diferenciar comportamiento.
+
+Ejemplo conceptual:
+
+Desktop:
+(min-width: 1024px)
+
+- sticky storytelling
+- parallax
+- pinning
+- scrub avanzado
+
+Tablet/Mobile:
+(max-width: 1023px)
+
+- reveals sencillos
+- sin pin
+- sin movimientos largos
+- layout vertical natural
+
+Esto debe evitar hacks CSS/JS innecesarios.
+
+==================================================
+PREFERS REDUCED MOTION
+==================================================
+
+Respetar obligatoriamente:
+
+prefers-reduced-motion: reduce
+
+Utilizar:
+
+gsap.matchMedia()
+
+o equivalente.
+
+Cuando reduced-motion está activo:
+
+- eliminar scrub
+- eliminar parallax
+- eliminar pinning animado
+- eliminar movimientos grandes
+- mostrar todo el contenido correctamente
+- permitir como máximo fades muy cortos
+
+La accesibilidad no puede depender de GSAP.
+
+==================================================
+REWARD PROGRESS CON GSAP
+==================================================
+
+El componente RewardProgress debe tener comportamiento animado.
+
+Ejemplo:
+
+○ ○ ○ ○ ○ 🎁
+
+Cuando entre en viewport:
+
+●
+●
+●
+●
+●
+🎁
+
+utilizando stagger.
+
+Cada reward circle puede:
+
+scale: 0.75 → 1
+background-color: cream → lime
+
+de forma secuencial.
+
+El último reward puede hacer:
+
+scale: 0.9 → 1.05 → 1
+
+muy sutil.
+
+Este lenguaje debe convertirse en una firma visual de reviko.
+
+==================================================
+ANIMACIÓN DEL PROBLEMA
+==================================================
+
+En:
+
+“¿Cuántos compraron una vez y no volvieron?”
+
+Animar las cinco figuras de clientes.
+
+Aparecen:
+
+1
+2
+3
+4
+5
+
+con stagger.
+
+Después destacar únicamente una en lime.
+
+El efecto debe comunicar visualmente:
+
+“solo una parte regresó”
+
+sin necesitar una explicación compleja.
+
+==================================================
+HOW IT WORKS
+==================================================
+
+Construir:
+
+QR
+→
+Wallet
+→
+Reward
+
+La conexión entre elementos puede utilizar SVG.
+
+Animar la línea utilizando:
+
+stroke-dasharray
+stroke-dashoffset
+
+o una estrategia GSAP equivalente.
+
+Al avanzar:
+
+1. QR entra
+2. línea avanza
+3. teléfono se activa
+4. línea continúa
+5. recompensa aparece
+
+Puede utilizar scrub muy ligero en desktop.
+
+En mobile:
+
+activar pasos individualmente al entrar en viewport.
+
+==================================================
+PRODUCT ANALYTICS
+==================================================
+
+Cuando el dashboard entre en viewport:
+
+animar:
+
+78%
+1432
+4.2
+
+con counters.
+
+Las barras del gráfico deben crecer desde abajo.
+
+Utilizar:
+
+scaleY: 0
+transformOrigin: "bottom"
+
+→
+
+scaleY: 1
+
+con stagger.
+
+No animar height si puede hacerse mediante transform.
+
+==================================================
+COUNTERS
+==================================================
+
+Crear una función reusable para counters.
+
+Ejemplo conceptual:
+
+data-counter="78"
+data-suffix="%"
+
+GSAP debe interpolar el número.
+
+Evitar dependencias adicionales solamente para contar números.
+
+==================================================
+SVG
+==================================================
+
+Para elementos gráficos propios de la marca:
+
+- flechas
+- progress paths
+- diagramas
+- rewards
+- conectores
+
+preferir SVG.
+
+GSAP puede animar:
+
+stroke
+strokeDashoffset
+transform
+opacity
+
+Evitar canvas cuando no sea necesario.
+
+==================================================
+MICROINTERACCIONES
+==================================================
+
+No todo debe resolverse con GSAP.
+
+Hover sencillo:
+
+utilizar CSS.
+
+Por ejemplo:
+
+button arrow transform
+
+puede resolverse con:
+
+transition: transform 250ms ease
+
+Reservar GSAP para:
+
+- secuencias
+- scroll
+- timelines
+- interacción compleja
+
+Evitar cargar lógica JS para efectos que CSS resuelve mejor.
+
+==================================================
+PERFORMANCE GSAP
+==================================================
+
+Priorizar propiedades baratas:
+
+transform
+opacity
+
+Usar con cuidado:
+
+clip-path
+
+Evitar animar continuamente:
+
+width
+height
+top
+left
+margin
+
+No provocar layout thrashing.
+
+No crear cientos de ScrollTriggers si no son necesarios.
+
+Utilizar:
+
+will-change
+
+solo en elementos que realmente lo necesiten y de manera controlada.
+
+No aplicar:
+
+will-change: transform
+
+a toda la página.
+
+==================================================
+SCROLLTRIGGER REFRESH
+==================================================
+
+Las imágenes y fuentes pueden modificar tamaños.
+
+Asegurarse de que ScrollTrigger calcule correctamente posiciones.
+
+Cuando sea necesario:
+
+ScrollTrigger.refresh()
+
+Pero no ejecutarlo constantemente.
+
+No asociarlo directamente a cada evento de scroll.
+
+==================================================
+RESPONSIVE + GSAP
+==================================================
+
+No intentar reproducir exactamente las animaciones desktop en mobile.
+
+Desktop puede tener:
+
+- pinning
+- scrub
+- parallax
+- composiciones complejas
+- fotografía sticky
+
+Mobile debe priorizar:
+
+- lectura
+- velocidad
+- scrolling natural
+- reveals
+- stagger
+- reward animations sencillas
+
+Mobile no debe sentirse como una versión rota del desktop.
+
+==================================================
+ASTRO VIEW TRANSITIONS
+==================================================
+
+Si decides utilizar las capacidades de navegación/transiciones de Astro, asegúrate de que GSAP sea compatible con el ciclo de navegación.
+
+No permitir:
+
+- ScrollTriggers duplicados
+- timelines duplicadas
+- listeners duplicados
+- animaciones ejecutándose sobre nodos eliminados
+
+Crear un sistema claro de:
+
+init
+cleanup
+re-init
+
+Si la web actualmente solo tiene una landing y las View Transitions no aportan valor real, no introducir complejidad innecesaria.
+
+==================================================
+CLEANUP
+==================================================
+
+Toda animación compleja debe poder limpiarse.
+
+Especialmente:
+
+ScrollTriggers
+event listeners
+timelines
+gsap.context()
+
+No dejar listeners globales huérfanos.
+
+==================================================
+FUENTES
+==================================================
+
+La tipografía debe cargarse de forma optimizada.
+
+Preferir:
+
+woff2 local
+
+si los archivos existen en el proyecto.
+
+Evitar dependencias externas innecesarias.
+
+Preload únicamente de los weights realmente críticos.
+
+No cargar:
+
+400
+500
+600
+700
+800
+900
+
+si no se utilizan realmente todos.
+
+==================================================
+IMÁGENES EN ASTRO
+==================================================
+
+Cuando sea posible utilizar las herramientas de Astro para optimización de imágenes.
+
+Priorizar:
+
+- dimensiones conocidas
+- formatos modernos
+- lazy loading
+- evitar CLS
+
+El hero visual principal puede cargarse prioritariamente.
+
+Las imágenes bajo el fold deben ser lazy.
+
+==================================================
+CSS
+==================================================
+
+Utilizar CSS moderno.
+
+Se permite:
+
+- CSS global
+- CSS scoped de Astro
+- CSS custom properties
+- clamp()
+- grid
+- flexbox
+- container queries cuando aporten valor
+
+No depender de una enorme cantidad de clases utility si perjudica la dirección de arte.
+
+Si Tailwind ya existe en el proyecto se puede mantener.
+
+Si el proyecto se inicia desde cero, NO instalar Tailwind por obligación.
+
+Para esta landing editorial, CSS bien organizado puede ofrecer mayor control visual.
+
+==================================================
+DESIGN TOKENS
+==================================================
+
+Crear un archivo central de tokens.
+
+Por ejemplo:
+
+src/styles/tokens.css
+
+:root {
+  --reviko-green: #0B2A1D;
+  --reviko-green-secondary: #163125;
+
+  --reviko-lime: #C7F979;
+  --reviko-lime-soft: #DDF993;
+
+  --reviko-cream: #FCF9F3;
+  --reviko-cream-secondary: #F5F1E9;
+  --reviko-beige: #E9E2D5;
+
+  --reviko-sage: #5B6D62;
+  --reviko-black: #0D1112;
+  --reviko-gold: #BE954E;
+
+  --page-padding:
+    clamp(1.25rem, 4vw, 4.5rem);
+
+  --section-space:
+    clamp(6rem, 12vw, 12rem);
+}
+
+==================================================
+FLUID TYPOGRAPHY
+==================================================
+
+Utilizar clamp().
+
+Ejemplo orientativo:
+
+--text-display:
+clamp(4rem, 9vw, 9rem);
+
+--text-h1:
+clamp(3.5rem, 7vw, 7rem);
+
+--text-h2:
+clamp(2.75rem, 5vw, 5.5rem);
+
+--text-body-lg:
+clamp(1.125rem, 1.5vw, 1.5rem);
+
+Ajustar según composición real.
+
+No seguir estos valores ciegamente si dañan la composición.
+
+==================================================
+ANIMACIONES DE COLOR
+==================================================
+
+Las transiciones entre crema y verde oscuro pueden estar relacionadas con el scroll.
+
+Pero evitar cambiar el background de toda la página continuamente.
+
+Preferir secciones claramente diseñadas:
+
+cream
+dark green
+cream
+photography
+dark green
+
+Esto crea ritmo editorial.
+
+GSAP puede ayudar con elementos que cruzan entre ellas.
+
+==================================================
+ELEMENTOS QUE CRUZAN SECCIONES
+==================================================
+
+Se permite que ciertos elementos visuales:
+
+- teléfono
+- reward rail
+- fotografía
+- UI card
+
+se superpongan parcialmente con la sección siguiente.
+
+Esto puede aportar continuidad narrativa.
+
+Implementarlo cuidadosamente para:
+
+- no crear overflow horizontal
+- no romper mobile
+- no tapar contenido
+- mantener z-index controlado
+
+==================================================
+NO OVERFLOW HORIZONTAL
+==================================================
+
+Revisar específicamente:
+
+document.documentElement.scrollWidth
+
+vs
+
+window.innerWidth
+
+La landing no debe generar scroll horizontal accidental.
+
+Especial atención a:
+
+- transforms GSAP
+- elementos absolutamente posicionados
+- textos gigantes
+- fotografía
+- elementos pinned
+
+==================================================
+EASINGS
+==================================================
+
+Mantener una familia pequeña de easings.
+
+Preferencia:
+
+power2.out
+power3.out
+power4.out
+expo.out
+
+Para scrub:
+
+ease: "none"
+
+No utilizar una easing distinta en cada animación.
+
+La motion language debe sentirse coherente.
+
+==================================================
+DURACIONES
+==================================================
+
+Reveals normales:
+
+0.6 - 1 segundo
+
+Microinteracciones:
+
+0.2 - 0.4 segundos
+
+Image reveals:
+
+0.9 - 1.4 segundos
+
+Hero sequence:
+
+aproximadamente 1.2 - 1.8 segundos
+
+Evitar animaciones lentísimas que entorpezcan navegación.
+
+==================================================
+PRINCIPIO DE MOTION
+==================================================
+
+La animación debe sentirse:
+
+“premium editorial”
+
+NO:
+
+“mira todo lo que GSAP puede hacer”.
+
+GSAP está al servicio de la marca.
+
+No convertir la web en una demo técnica.
+
+==================================================
+MOTION HIERARCHY
+==================================================
+
+Cada viewport debe tener aproximadamente:
+
+1 movimiento protagonista
+
++
+
+1 o 2 movimientos secundarios.
+
+Ejemplo:
+
+Industries:
+
+protagonista:
+cambio de fotografía
+
+secundario:
+reward progress
+
+secundario:
+headline reveal
+
+No animar simultáneamente otros 15 elementos.
+
+==================================================
+PROHIBIDO
+==================================================
+
+No usar GSAP para:
+
+- cursor personalizado enorme
+- magnetismo exagerado
+- scroll hijacking
+- distorsiones gratuitas
+- texto girando constantemente
+- elementos flotando sin propósito
+- animaciones perpetuas
+- movimiento excesivo del navbar
+- horizontal scroll obligatorio en mobile
+
+No añadir animaciones simplemente porque la librería lo permite.
+
+==================================================
+ASTRO SEO
+==================================================
+
+Implementar:
+
+<title>
+meta description
+canonical cuando corresponda
+Open Graph básico
+Twitter/X cards
+favicon
+theme-color
+
+Utilizar HTML semántico:
+
+header
+nav
+main
+section
+article cuando corresponda
+footer
+
+Una única jerarquía de headings coherente.
+
+==================================================
+CORE WEB VITALS
+==================================================
+
+La dirección de arte no debe sacrificar rendimiento.
+
+Priorizar:
+
+- CLS bajo
+- LCP optimizado
+- JS reducido
+- imágenes optimizadas
+- fuentes controladas
+- hidratación mínima
+
+Recuerda:
+
+uno de los motivos para utilizar Astro es evitar enviar JavaScript innecesario.
+
+==================================================
+DEPENDENCIAS
+==================================================
+
+Mantener dependencias al mínimo.
+
+Necesarias:
+
+Astro
+GSAP
+
+Opcionales únicamente si ya existen o aportan valor real.
+
+No instalar 10 paquetes para resolver funcionalidades triviales.
+
+==================================================
+IMPLEMENTACIÓN FINAL
+==================================================
+
+Antes de escribir código:
+
+1. Inspecciona el repositorio.
+2. Confirma que el proyecto utiliza Astro o adáptalo correctamente.
+3. Revisa assets existentes.
+4. Localiza el logo de reviko y las imágenes disponibles.
+5. Define tokens.
+6. Construye estructura HTML/Astro.
+7. Trabaja composición y responsive.
+8. Después incorpora GSAP.
+9. No intentes solucionar una mala composición añadiendo animaciones.
+
+Orden de prioridad:
+
+1. Dirección de arte
+2. Layout
+3. Tipografía
+4. Responsive
+5. Fotografía
+6. Motion
+7. Microinteracciones
+
+No al revés.
+
+==================================================
+VALIDACIÓN
+==================================================
+
+Al terminar:
+
+- ejecutar build
+- ejecutar lint si existe
+- corregir errores TypeScript
+- revisar consola del navegador
+- revisar warnings GSAP
+- comprobar ScrollTriggers
+- comprobar mobile
+- comprobar tablet
+- comprobar desktop
+- comprobar reduced motion
+- comprobar navegación por teclado
+- comprobar overflow horizontal
+- comprobar imágenes
+- comprobar fuentes
+- comprobar performance
+
+La entrega debe quedar funcional y lista para seguir iterando.
+
+==================================================
+REGLA DEFINITIVA
+==================================================
+
+ASTRO proporciona la estructura.
+
+CSS proporciona la dirección de arte.
+
+GSAP proporciona el movimiento.
+
+No permitas que GSAP sustituya un buen diseño.
+
+La página debe ser atractiva incluso completamente estática.
+
+La animación debe elevar una identidad visual ya sólida.

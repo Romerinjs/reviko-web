@@ -1,0 +1,58 @@
+---
+/* Renderer único: mismo LegalLayout, componentes, CSS, TOC y footer.
+   Solo cambian contenido, labels y ruta. */
+import LegalLayout from "../../layouts/LegalLayout.astro";
+import { LEGAL_DOCS, type Locale, type LegalDocSlug } from "../../i18n/config";
+import TermsBodyEs from "./docs/TermsBodyEs.astro";
+import TermsBodyEn from "./docs/TermsBodyEn.astro";
+import PrivacyBodyEs from "./docs/PrivacyBodyEs.astro";
+import PrivacyBodyEn from "./docs/PrivacyBodyEn.astro";
+import MerchantTermsBodyEs from "./docs/MerchantTermsBodyEs.astro";
+import MerchantTermsBodyEn from "./docs/MerchantTermsBodyEn.astro";
+import LoyaltyTermsBodyEs from "./docs/LoyaltyTermsBodyEs.astro";
+import LoyaltyTermsBodyEn from "./docs/LoyaltyTermsBodyEn.astro";
+import BillingBodyEs from "./docs/BillingBodyEs.astro";
+import BillingBodyEn from "./docs/BillingBodyEn.astro";
+import SupportBodyEs from "./docs/SupportBodyEs.astro";
+import SupportBodyEn from "./docs/SupportBodyEn.astro";
+import PrivacyRequestBodyEs from "./docs/PrivacyRequestBodyEs.astro";
+import PrivacyRequestBodyEn from "./docs/PrivacyRequestBodyEn.astro";
+import DeleteAccountBodyEs from "./docs/DeleteAccountBodyEs.astro";
+import DeleteAccountBodyEn from "./docs/DeleteAccountBodyEn.astro";
+
+export interface Props {
+  doc: LegalDocSlug;
+  locale: Locale;
+}
+
+const { doc, locale } = Astro.props;
+const meta = LEGAL_DOCS[doc];
+
+const bodies = {
+  terms: { es: TermsBodyEs, en: TermsBodyEn },
+  privacy: { es: PrivacyBodyEs, en: PrivacyBodyEn },
+  "merchant-terms": { es: MerchantTermsBodyEs, en: MerchantTermsBodyEn },
+  "loyalty-terms": { es: LoyaltyTermsBodyEs, en: LoyaltyTermsBodyEn },
+  billing: { es: BillingBodyEs, en: BillingBodyEn },
+  support: { es: SupportBodyEs, en: SupportBodyEn },
+  "privacy-request": { es: PrivacyRequestBodyEs, en: PrivacyRequestBodyEn },
+  "delete-account": { es: DeleteAccountBodyEs, en: DeleteAccountBodyEn },
+} as const;
+
+const Body = bodies[doc][locale];
+---
+
+<LegalLayout
+  locale={locale}
+  basePath={`/${meta.slug}`}
+  eyebrow={meta.eyebrow[locale]}
+  title={meta.title[locale]}
+  description={meta.description[locale]}
+  effectiveDate={meta.effectiveDate?.[locale]}
+  version={meta.version ?? undefined}
+  variant={meta.variant}
+  sectionIds={meta.sectionIds}
+  contentLang={locale}
+>
+  <Body />
+</LegalLayout>

@@ -1,0 +1,40 @@
+:root {
+  --reviko-green: #0b2a1d;
+  --reviko-green-2: #163125;
+  --reviko-green-deep: #081f15;
+  --reviko-green-3: #1e4030;
+  --reviko-lime: #c7f979;
+  --reviko-lime-soft: #ddf993;
+  --reviko-lime-deep: #a8e04b;
+  --reviko-cream: #fcf9f3;
+  --reviko-cream-2: #f5f1e9;
+  --reviko-beige: #e9e2d5;
+  --reviko-sage: #5b6d62;
+  --reviko-ink: #0d1112;
+  --reviko-gold: #be954e;
+  --reviko-card: #fffdf8;
+
+  --font-sans:
+    "Manrope", "General Sans", "Plus Jakarta Sans", system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow-soft:
+    0 1px 2px rgb(11 42 29 / 0.06), 0 8px 24px -12px rgb(11 42 29 / 0.18);
+  --shadow-card:
+    0 1px 0 rgb(11 42 29 / 0.06), 0 16px 40px -24px rgb(11 42 29 / 0.25);
+
+  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  --container: min(
+    1200px,
+    calc(100% - var(--page-gutter) - var(--page-gutter))
+  );
+  --header-h: clamp(64px, 7vw, 72px);
+  --section-space: clamp(3.5rem, 10vw, 8rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

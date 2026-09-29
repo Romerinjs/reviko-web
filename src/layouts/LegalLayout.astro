@@ -1,0 +1,166 @@
+---
+import LegalHeader from "../components/legal/LegalHeader.astro";
+import LegalToc from "../components/legal/LegalToc.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import type { Locale } from "../i18n/config";
+import { SITE_URL, localizedPath, type LegalVariant } from "../i18n/config";
+import { ui } from "../i18n/ui";
+import { ClientRouter } from "astro:transitions";
+import "../styles/tokens.css";
+import "../styles/base.css";
+import "../styles/utilities.css";
+import "../styles/legal.css";
+
+export interface Props {
+  locale?: Locale;
+  /** ruta base en español del documento (p.ej. "/terms") */
+  basePath: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  effectiveDate?: string;
+  version?: string;
+  variant?: LegalVariant;
+  /** IDs de sección estables (mismo orden en ambos idiomas) */
+  sectionIds?: string[];
+  /** idioma del contenido legal */
+  contentLang?: string;
+}
+
+const {
+  locale = "es",
+  basePath,
+  eyebrow,
+  title,
+  description,
+  effectiveDate,
+  version,
+  variant = "long",
+  sectionIds = [],
+  contentLang,
+} = Astro.props;
+
+const t = ui[locale].legalChrome;
+const canonical = new URL(localizedPath(basePath, locale), SITE_URL).toString();
+const docLinks = t.docs;
+---
+
+<!doctype html>
+<html lang={locale} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | reviko</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FCF9F3" />
+    <ClientRouter />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="es" href={new URL(localizedPath(basePath, "es"), SITE_URL).toString()} />
+    <link rel="alternate" hreflang="en" href={new URL(localizedPath(basePath, "en"), SITE_URL).toString()} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localizedPath(basePath, "es"), SITE_URL).toString()} />
+    <meta property="og:title" content={`${title} | reviko`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locale === "es" ? "es_ES" : "en_US"} />
+    <meta property="og:locale:alternate" content={locale === "es" ? "en_US" : "es_ES"} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      document.documentElement.classList.remove("no-js");
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#legal-doc">{t.skip}</a>
+    <LegalHeader locale={locale} basePath={basePath} />
+
+    <main id="contenido">
+      <div class="legal-hero">
+        <p class="legal-eyebrow" data-reveal="fade">{eyebrow}</p>
+        <h1 class="legal-title" data-reveal="up">{title}</h1>
+        {(effectiveDate || version) && (
+          <dl class="legal-meta" data-reveal="fade">
+            {effectiveDate && (
+              <div class="legal-meta-item">
+                <dt>{t.metaEffective}</dt>
+                <dd>{effectiveDate}</dd>
+              </div>
+            )}
+            {version && (
+              <div class="legal-meta-item">
+                <dt>{t.metaVersion}</dt>
+                <dd>{version}</dd>
+              </div>
+            )}
+          </dl>
+        )}
+      </div>
+
+      <div class="legal-shell">
+        {variant === "long" ? (
+          <div class="legal-grid">
+            <LegalToc mode="sidebar" label={t.tocLabel} />
+            <div class="legal-docwrap">
+              <div class="legal-watermark" aria-hidden="true">
+                <div class="legal-watermark-inner">
+                  <img src="/reviko-la-vuelta.svg" alt="" width="620" height="620" loading="lazy" decoding="async" />
+                </div>
+              </div>
+              <article
+                class="legal-doc"
+                id="legal-doc"
+                data-legal-doc
+                data-section-ids={sectionIds.join(",")}
+                lang={contentLang ?? locale}
+              >
+                <LegalToc mode="inline" label={t.tocLabel} />
+                <slot />
+              </article>
+            </div>
+          </div>
+        ) : (
+          <div class="legal-docwrap">
+            <div class="legal-watermark" aria-hidden="true">
+              <div class="legal-watermark-inner">
+                <img src="/reviko-la-vuelta.svg" alt="" width="620" height="620" loading="lazy" decoding="async" />
+              </div>
+            </div>
+            <article
+              class:list={["legal-doc", variant === "action" && "legal-action-grid"]}
+              id="legal-doc"
+              data-legal-doc
+              data-section-ids={sectionIds.join(",")}
+              lang={contentLang ?? locale}
+            >
+              <slot />
+            </article>
+          </div>
+        )}
+      </div>
+
+      <nav class="legal-related" aria-label={t.relatedTitle}>
+        <h2>{t.relatedTitle}</h2>
+        <ul>
+          {docLinks.map((l) => (
+            <li>
+              <a href={l.href} aria-current={Astro.url.pathname === l.href ? "page" : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </main>
+
+    <SiteFooter locale={locale} />
+
+    <script>
+       import "../scripts/initAnimations";
+    </script>
+  </body>
+</html>
