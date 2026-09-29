@@ -341,10 +341,7 @@
   padding-top: 0;
 }
 .legal-h2 {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1.1rem;
-  align-items: baseline;
+  display: block;
   font-size: clamp(1.7rem, 2.5vw, 2.4rem);
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -355,10 +352,7 @@
   min-width: 0;
 }
 .legal-h2 .sec-num {
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--reviko-sage);
+  display: none;
 }
 /* Sin JS: jerarquía legible sin numeración */
 .no-js .legal-doc h2 {
@@ -392,14 +386,14 @@
   font-weight: 700;
   color: var(--reviko-ink);
 }
-.legal-doc a {
+.legal-doc a:not(.btn) {
   color: var(--reviko-green);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
-.legal-doc a:hover {
+.legal-doc a:not(.btn):hover {
   color: var(--reviko-green-2);
 }
 .legal-doc ul,
@@ -461,6 +455,19 @@
 }
 .legal-mail-cta {
   margin: 1.8rem 0 0.4rem;
+}
+.legal-mail-cta .btn {
+  text-decoration: none !important;
+  color: var(--reviko-cream) !important;
+  background: var(--reviko-green);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.legal-mail-cta .btn:hover {
+  background: var(--reviko-green-2);
+  color: #ffffff !important;
+  transform: translateY(-2px);
 }
 .legal-note {
   border-left: 3px solid var(--reviko-lime);

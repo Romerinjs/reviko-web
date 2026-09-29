@@ -94,13 +94,6 @@ export function initLegal(): void {
     h.classList.add("legal-h2");
     h.id = id;
     (h as HTMLElement).dataset.sectionTitle = title;
-    if (!h.querySelector(":scope > .sec-num")) {
-      const marker = document.createElement("span");
-      marker.className = "sec-num";
-      marker.setAttribute("aria-hidden", "true");
-      marker.textContent = num;
-      h.prepend(marker, document.createTextNode(" "));
-    }
 
     sections.push(section);
   });
