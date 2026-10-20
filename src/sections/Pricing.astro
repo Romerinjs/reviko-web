@@ -2,6 +2,7 @@
 import Eyebrow from "../components/Eyebrow.astro";
 import ArrowButton from "../components/ArrowButton.astro";
 import type { Locale } from "../i18n/config";
+import { APP_SIGNUP_URL } from "../i18n/config";
 import { ui } from "../i18n/ui";
 
 export interface Props {
@@ -63,7 +64,7 @@ const t = ui[locale].pricing;
           </ul>
           <div class="plan-cta">
             <ArrowButton
-              href="#cta"
+              href={APP_SIGNUP_URL}
               variant={plan.featured ? "lime" : "primary"}
               label={plan.cta}
             />

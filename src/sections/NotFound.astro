@@ -5,7 +5,7 @@ import RewardProgress from "../components/RewardProgress.astro";
 import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import type { Locale } from "../i18n/config";
-import { localizedHomeAnchor, localizedPath } from "../i18n/config";
+import { APP_SIGNUP_URL, localizedHomeAnchor, localizedPath } from "../i18n/config";
 import { ui } from "../i18n/ui";
 
 export interface Props {
@@ -27,7 +27,7 @@ const digits = "404".split("");
     </a>
     <div class="nf-topbar-actions">
       <LanguageSwitcher locale={locale} basePath="/404" />
-      <a href={home} class="btn btn-lime btn-sm">
+      <a href={APP_SIGNUP_URL} class="btn btn-lime btn-sm">
         <span>{ui[locale].ctaStart}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>

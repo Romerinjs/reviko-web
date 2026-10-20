@@ -4,6 +4,7 @@ import ArrowButton from "../components/ArrowButton.astro";
 import RewardProgress from "../components/RewardProgress.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import type { Locale } from "../i18n/config";
+import { APP_SIGNUP_URL } from "../i18n/config";
 import { ui } from "../i18n/ui";
 
 export interface Props {
@@ -37,7 +38,7 @@ const t = ui[locale].final;
       <RewardProgress total={6} filled={6} icon="coffee" label={t.stampsLabel} />
     </div>
     <div class="final-ctas" data-final-button>
-      <ArrowButton href="#top" variant="lime" label={t.cta} />
+      <ArrowButton href={APP_SIGNUP_URL} variant="lime" label={t.cta} />
     </div>
     <p class="micro">{t.micro}</p>
   </div>

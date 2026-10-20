@@ -3,6 +3,7 @@ import Eyebrow from "../components/Eyebrow.astro";
 import ArrowButton from "../components/ArrowButton.astro";
 import RewardProgress from "../components/RewardProgress.astro";
 import type { Locale } from "../i18n/config";
+import { APP_SIGNUP_URL } from "../i18n/config";
 import { ui } from "../i18n/ui";
 
 export interface Props {
@@ -34,7 +35,7 @@ const t = ui[locale].hero;
       <p class="lede" data-hero="lede">{t.lede}</p>
       <p class="sub" data-hero="sub">{t.sub}</p>
       <div class="ctas" data-hero="ctas">
-        <ArrowButton href="#cta" variant="primary" label={ui[locale].ctaStart} />
+        <ArrowButton href={APP_SIGNUP_URL} variant="primary" label={ui[locale].ctaStart} />
         <ArrowButton href="#how-it-works" variant="ghost" label={t.ctaSecondary} />
       </div>
       <p class="micro" data-hero="micro">{t.micro}</p>
