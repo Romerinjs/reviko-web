@@ -10,6 +10,12 @@ export const LOCALE_KEY = "reviko-locale";
 /** Rutas base (español). El inglés reutiliza el mismo slug bajo /en/. */
 export const HOME_PATH = "/";
 
+/** Aplicación web de reviko (app.reviko.io). */
+export const APP_URL = "https://app.reviko.io";
+
+/** Alta de nuevos negocios / registro en la app. */
+export const APP_SIGNUP_URL = `${APP_URL}/registro`;
+
 export function localizedPath(path: string, locale: Locale): string {
   if (locale === DEFAULT_LOCALE) return path;
   return path === "/" ? "/en/" : `/en${path}`;

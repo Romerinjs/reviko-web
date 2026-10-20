@@ -11,6 +11,7 @@ import {
 } from "./animations/industries";
 import { initHowItWorksAnimation } from "./animations/howItWorks";
 import { initProblemAnimation } from "./animations/problem";
+import { initNotFoundAnimations } from "./animations/notFound";
 import { initPricingAnimations } from "./animations/pricing";
 import { initProductAnimations } from "./animations/product";
 import { initScrollReveals } from "./animations/reveals";
@@ -115,6 +116,7 @@ export function initAnimations(): void {
     initProblemAnimation();
     initProductAnimations();
     initPricingAnimations();
+    initNotFoundAnimations();
     initRewardAnimations();
     initFinalCtaAnimation();
   }, document.body);
