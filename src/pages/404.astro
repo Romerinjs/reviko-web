@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NotFound from "../sections/NotFound.astro";
+
+const locale = "es" as const;
+---
+
+<BaseLayout
+  locale={locale}
+  basePath="/404"
+  title="Página no encontrada · reviko"
+  description="La página que buscas no existe o cambió de dirección. Vuelve al inicio de reviko o revisa nuestros planes."
+>
+  <NotFound locale={locale} />
+</BaseLayout>
