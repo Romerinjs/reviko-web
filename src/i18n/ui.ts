@@ -25,6 +25,17 @@ export interface WayCard {
   metric: string;
 }
 
+export interface PricingPlan {
+  name: string;
+  kicker: string;
+  price: number;
+  blurb: string;
+  features: string[];
+  cta: string;
+  featured?: boolean;
+  badge?: string;
+}
+
 const es = {
   meta: {
     title: "reviko — Haz que vuelvan",
@@ -38,6 +49,7 @@ const es = {
     { label: "Producto", href: "#product" },
     { label: "Cómo funciona", href: "#how-it-works" },
     { label: "Para negocios", href: "#businesses" },
+    { label: "Planes", href: "#pricing" },
     { label: "Beneficios", href: "#benefits" },
   ],
   login: "Iniciar sesión",
@@ -117,6 +129,63 @@ const es = {
     ],
     cardLabel:
       "Panel de clientes que regresan: 78 por ciento, más 24 por ciento, gráfico de barras",
+  },
+  pricing: {
+    eyebrow: "Planes",
+    title: ["Un plan por cada", "etapa de tu negocio."],
+    sub: "Empieza con lo esencial y escala cuando tus clientes crezcan. Sin costos ocultos.",
+    currencyNote: "Precios en USD. Facturación mensual.",
+    plans: [
+      {
+        name: "Start",
+        kicker: "Plan básico",
+        price: 12,
+        blurb:
+          "Para empezar a premiar cada visita y medir la recurrencia de tu negocio.",
+        features: [
+          "Hasta 100 clientes",
+          "1 programa de fidelización",
+          "Pases de Apple Wallet y Google Wallet",
+          "Interacciones QR y NFC ilimitadas",
+          "Métricas esenciales",
+        ],
+        cta: "Elegir Start",
+      },
+      {
+        name: "Pro",
+        kicker: "Plan profesional",
+        price: 20,
+        blurb:
+          "Para negocios con clientela que quieren segmentar, activar y crecer.",
+        features: [
+          "Hasta 500 clientes",
+          "Programas de fidelización ilimitados",
+          "Flujos de reseñas de Google",
+          "Segmentación y campañas",
+          "Métricas avanzadas",
+        ],
+        cta: "Elegir Pro",
+        featured: true,
+        badge: "Más elegido",
+      },
+      {
+        name: "Business",
+        kicker: "Plan negocio",
+        price: 35,
+        blurb:
+          "Para cadenas y equipos con varias sedes, Roles, integraciones y acompañamiento cercano.",
+        features: [
+          "Clientes ilimitados",
+          "WhatsApp Business: automatizaciones y avisos",
+          "Multi-sede y equipo",
+          "Roles y permisos",
+          "API y webhooks",
+          "Todas las métricas, analíticas y campañas",
+          "Soporte prioritario",
+        ],
+        cta: "Elegir Business",
+      },
+    ] as PricingPlan[],
   },
   industries: {
     eyebrow: "Para negocios reales",
@@ -221,6 +290,7 @@ const es = {
       { label: "Producto", anchor: "product" },
       { label: "Cómo funciona", anchor: "how-it-works" },
       { label: "Para negocios", anchor: "businesses" },
+      { label: "Planes", anchor: "pricing" },
       { label: "Beneficios", anchor: "benefits" },
     ],
     legalTitle: "Legal",
@@ -258,6 +328,7 @@ const en: UIDict = {
     { label: "Product", href: "#product" },
     { label: "How it works", href: "#how-it-works" },
     { label: "For businesses", href: "#businesses" },
+    { label: "Plans", href: "#pricing" },
     { label: "Benefits", href: "#benefits" },
   ],
   login: "Log in",
@@ -332,6 +403,63 @@ const en: UIDict = {
     cardFoot: ["total", "returning", "average"] as [string, string, string],
     cardLabel:
       "Returning customers panel: 78 percent, plus 24 percent, bar chart",
+  },
+  pricing: {
+    eyebrow: "Plans",
+    title: ["A plan for every", "stage of your business."],
+    sub: "Start with the essentials and scale as your customers grow. No hidden fees.",
+    currencyNote: "Prices in USD. Monthly billing.",
+    plans: [
+      {
+        name: "Start",
+        kicker: "Basic plan",
+        price: 12,
+        blurb:
+          "To start rewarding every visit and measure how your customers come back.",
+        features: [
+          "Up to 100 customers",
+          "1 loyalty program",
+          "Apple Wallet and Google Wallet passes",
+          "Unlimited QR and NFC interactions",
+          "Essential metrics",
+        ],
+        cta: "Choose Start",
+      },
+      {
+        name: "Pro",
+        kicker: "Professional plan",
+        price: 20,
+        blurb:
+          "For businesses with customers who want to segment, engage and grow.",
+        features: [
+          "Up to 500 customers",
+          "Unlimited loyalty programs",
+          "Google review workflows",
+          "Segmentation and campaigns",
+          "Advanced metrics",
+        ],
+        cta: "Choose Pro",
+        featured: true,
+        badge: "Most popular",
+      },
+      {
+        name: "Business",
+        kicker: "Business plan",
+        price: 35,
+        blurb:
+          "For chains and teams with multiple locations, roles, integrations and hands-on support.",
+        features: [
+          "Unlimited customers",
+          "WhatsApp Business: automations and notifications",
+          "Multi-location and team",
+          "Roles and permissions",
+          "API and webhooks",
+          "All metrics, analytics and campaigns",
+          "Priority support",
+        ],
+        cta: "Choose Business",
+      },
+    ] as PricingPlan[],
   },
   industries: {
     eyebrow: "For real businesses",
@@ -431,6 +559,7 @@ const en: UIDict = {
       { label: "Product", anchor: "product" },
       { label: "How it works", anchor: "how-it-works" },
       { label: "For businesses", anchor: "businesses" },
+      { label: "Plans", anchor: "pricing" },
       { label: "Benefits", anchor: "benefits" },
     ],
     legalTitle: "Legal",
